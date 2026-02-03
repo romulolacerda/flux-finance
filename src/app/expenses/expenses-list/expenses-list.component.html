@@ -1,0 +1,86 @@
+<div class="flex flex-col h-full min-h-screen bg-background-light">
+
+    <!-- Header -->
+    <header class="flex flex-col bg-white sticky top-0 z-20 border-b border-slate-100">
+        <!-- Logo & Profile -->
+        <div class="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-5 border-b border-slate-100">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 text-primary-600">
+                    <span class="material-symbols-outlined text-3xl">all_inclusive</span>
+                    <h1 class="text-xl font-bold text-slate-900">Flux</h1>
+                </div>
+            </div>
+            <div class="h-10 w-10 rounded-full bg-slate-200 overflow-hidden border-2 border-white shadow-sm">
+                <img src="https://picsum.photos/100/100" alt="Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <!-- Title & Stats -->
+        <div class="px-6 pt-6 pb-4">
+            <div class="flex flex-col gap-1 mt-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Minhas Contas</h2>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-sm font-medium text-slate-500">Total este mês:</span>
+                    <span class="text-xl font-bold text-primary-600">{{ calcService.totalExpenses() |
+                        currency:'BRL':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-2 overflow-x-auto px-6 pb-4 no-scrollbar">
+            <button
+                class="px-5 py-2 bg-primary-600 text-white rounded-full text-sm font-bold shadow-md shadow-primary-600/30 whitespace-nowrap">Atual</button>
+            <button
+                class="px-5 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-full text-sm font-bold whitespace-nowrap transition-colors">Próximas</button>
+            <button
+                class="px-5 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-full text-sm font-bold whitespace-nowrap transition-colors">Histórico</button>
+        </div>
+    </header>
+
+    <!-- List -->
+    <div class="flex-1 p-4 pb-24 flex flex-col gap-3">
+
+        @for (bill of expensesService.expenses(); track bill.id) {
+        <div
+            class="group relative flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-primary-200 transition-all overflow-hidden">
+            <div
+                class="absolute inset-0 bg-primary-600/0 group-hover:bg-primary-600/[0.02] transition-colors pointer-events-none">
+            </div>
+
+            <div [class]="'flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center ' + bill.iconColor">
+                <span class="material-symbols-outlined">{{ bill.icon }}</span>
+            </div>
+
+            <div class="flex-1 min-w-0">
+                <p class="text-base font-bold text-slate-900 truncate">{{ bill.name }}</p>
+                <p class="text-xs font-medium text-slate-500 truncate">{{ bill.category }}</p>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <p class="text-base font-bold text-slate-900">{{ bill.amount | currency:'BRL':'symbol':'1.2-2' }}</p>
+                <button (click)="deleteBill(bill.id!)"
+                    class="w-8 h-8 flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all">
+                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                </button>
+            </div>
+        </div>
+        } @empty {
+        <div class="flex flex-col items-center justify-center py-20 text-slate-400">
+            <span class="material-symbols-outlined text-6xl mb-4 opacity-50">receipt</span>
+            <p>Nenhuma conta cadastrada.</p>
+        </div>
+        }
+
+    </div>
+
+    <!-- FAB -->
+    <div class="fixed bottom-[100px] right-6 z-30">
+        <!-- Adjusted for layout width constraints in desktop view, usually relative to container -->
+        <a routerLink="/app/expenses/add"
+            class="flex items-center justify-center w-14 h-14 rounded-2xl bg-success text-white shadow-lg shadow-success/30 hover:bg-green-600 hover:scale-105 active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-3xl">add</span>
+        </a>
+    </div>
+
+</div>

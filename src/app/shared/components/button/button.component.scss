@@ -1,0 +1,5 @@
+// Button styles are mostly utility classes, but we can add specifics here if needed
+:host {
+    display: block;
+    width: 100%; // Default to full width container
+}

@@ -1,0 +1,53 @@
+<div class="relative min-h-screen bg-background-light flex justify-center">
+    <div class="w-full max-w-[480px] bg-background-light shadow-2xl min-h-screen flex flex-col relative pb-[64px] sm:pb-[80px]">
+        <!-- PB for Navbar -->
+
+        <!-- Main Content Area -->
+        <div class="flex-1 overflow-y-auto no-scrollbar">
+            <router-outlet></router-outlet>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav
+            class="fixed bottom-0 w-full max-w-[480px] bg-white border-t border-slate-100 h-16 sm:h-20 flex justify-around items-center px-2 z-50">
+
+            <a routerLink="/app/income" routerLinkActive="text-primary-600" [routerLinkActiveOptions]="{exact: true}"
+                class="group flex flex-col items-center gap-1 w-16 p-1 text-slate-400 hover:text-slate-600 transition-colors">
+                <div class="px-5 py-1 rounded-full group-[.text-primary-600]:bg-primary-50 transition-colors">
+                    <span class="material-symbols-outlined text-2xl"
+                        [class.filled]="isActive('/app/income')">payments</span>
+                </div>
+                <span class="text-[10px] font-bold">Renda</span>
+            </a>
+
+            <a routerLink="/app/expenses" routerLinkActive="text-primary-600"
+                class="group flex flex-col items-center gap-1 w-16 p-1 text-slate-400 hover:text-slate-600 transition-colors">
+                <div class="px-5 py-1 rounded-full group-[.text-primary-600]:bg-primary-50 transition-colors">
+                    <span class="material-symbols-outlined text-2xl"
+                        [class.filled]="isActive('/app/expenses')">receipt_long</span>
+                </div>
+                <span class="text-[10px] font-bold">Contas</span>
+            </a>
+
+            <a routerLink="/app/summary" routerLinkActive="text-primary-600"
+                class="group flex flex-col items-center gap-1 w-16 p-1 text-slate-400 hover:text-slate-600 transition-colors">
+                <div class="px-5 py-1 rounded-full group-[.text-primary-600]:bg-primary-50 transition-colors">
+                    <span class="material-symbols-outlined text-2xl"
+                        [class.filled]="isActive('/app/summary')">pie_chart</span>
+                </div>
+                <span class="text-[10px] font-bold">Resumo</span>
+            </a>
+
+            <a routerLink="/app/profile" routerLinkActive="text-primary-600"
+                class="group flex flex-col items-center gap-1 w-16 p-1 text-slate-400 hover:text-slate-600 transition-colors">
+                <div class="px-5 py-1 rounded-full group-[.text-primary-600]:bg-primary-50 transition-colors">
+                    <span class="material-symbols-outlined text-2xl"
+                        [class.filled]="isActive('/app/profile')">person</span>
+                </div>
+                <span class="text-[10px] font-bold">Perfil</span>
+            </a>
+
+        </nav>
+
+    </div>
+</div>

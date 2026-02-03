@@ -1,0 +1,96 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/50 backdrop-blur-sm">
+
+    <div
+        class="w-full max-w-[480px] bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col animate-scale-in">
+
+        <!-- Header -->
+        <header class="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-slate-100 bg-white">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center text-primary-600">
+                    <span class="material-symbols-outlined">receipt_long</span>
+                </div>
+                <h2 class="text-xl font-bold text-slate-900">Nova Conta</h2>
+            </div>
+            <a routerLink="/app/expenses"
+                class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-500 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </a>
+        </header>
+
+        <!-- Form -->
+        <form [formGroup]="form" (ngSubmit)="submit()" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
+
+            <!-- Amount -->
+            <app-input
+                label="Valor"
+                type="number"
+                prefix="R$"
+                placeholder="0,00"
+                formControlName="amount"
+                [error]="form.get('amount')?.touched && form.get('amount')?.invalid ? 'Valor inválido' : null">
+            </app-input>
+
+            <!-- Name -->
+            <app-input
+                label="Nome da conta"
+                type="text"
+                icon="edit"
+                placeholder="Ex: Conta de Luz"
+                formControlName="name"
+                [error]="form.get('name')?.touched && form.get('name')?.invalid ? 'Nome obrigatório' : null">
+            </app-input>
+
+            <!-- Category -->
+            <app-select
+                label="Categoria"
+                placeholder="Selecione"
+                icon="category"
+                [options]="categories"
+                formControlName="category"
+                [error]="form.get('category')?.touched && form.get('category')?.invalid ? 'Categoria obrigatória' : null">
+            </app-select>
+
+            <!-- Date (Visual Only) -->
+            <div class="grid grid-cols-2 gap-4">
+                <app-select
+                    label="Mês"
+                    [options]="months"
+                    placeholder="Outubro"
+                    icon="calendar_month">
+                </app-select>
+                <app-select
+                    label="Ano"
+                    [options]="years"
+                    placeholder="2024"
+                    icon="calendar_today">
+                </app-select>
+            </div>
+
+            <!-- Toggle -->
+            <div class="flex items-start gap-4 p-4 rounded-xl bg-primary-50 border border-primary-100">
+                <div class="flex-1">
+                    <label class="font-bold text-slate-900">Dividir entre o casal?</label>
+                    <p class="text-xs text-slate-500 mt-1">O valor será dividido proporcionalmente à renda cadastrada.
+                    </p>
+                </div>
+                <div class="relative inline-flex items-center cursor-pointer mt-1">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div
+                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Footer -->
+        <div class="p-4 sm:p-6 border-t border-slate-100 bg-white">
+            <button (click)="submit()" [disabled]="form.invalid"
+                class="w-full flex items-center justify-center gap-2 bg-primary-600 disabled:opacity-50 hover:bg-primary-700 text-white font-bold text-lg py-3.5 rounded-xl shadow-lg shadow-primary-600/30 transition-all active:scale-[0.98]">
+                <span>Adicionar conta</span>
+                <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="min-h-screen bg-background-light pb-24">
+
+    <!-- Top Section -->
+    <div
+        class="flex flex-col items-center pt-8 pb-6 px-4 sm:pt-12 sm:pb-8 sm:px-6 bg-white rounded-b-[2.5rem] shadow-sm mb-6 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-primary-600"></div>
+
+        <div class="relative w-24 h-24 mb-4 group">
+            <div
+                class="w-full h-full rounded-full bg-primary-50 flex items-center justify-center text-primary-600 overflow-hidden border-4 border-white shadow-inner">
+                <span class="material-symbols-outlined text-5xl filled">person</span>
+            </div>
+        </div>
+
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">
+            {{ supabaseService.currentUser()?.email?.split('@')?.[0] || 'Usuário' }}
+        </h1>
+        <p class="text-sm text-slate-500 mt-1 font-medium">Membro do Flux</p>
+    </div>
+
+    <!-- Info Section -->
+    <div class="px-4 sm:px-6 mb-8">
+        <h2 class="text-xs font-bold text-primary-600 uppercase tracking-wider mb-4 px-1">Informações Pessoais</h2>
+
+        <div class="space-y-4">
+            <div>
+                <app-input
+                    label="E-mail"
+                    icon="mail"
+                    [ngModel]="supabaseService.currentUser()?.email"
+                    [disabled]="true"
+                    >
+                </app-input>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout -->
+    <div class="px-4 sm:px-6 pb-6">
+        <button (click)="logout()"
+            class="w-full py-3.5 px-4 bg-red-50 text-red-600 hover:bg-red-100 border border-transparent rounded-2xl font-bold transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-xl">logout</span>
+            <span>Sair</span>
+        </button>
+        <p class="text-center text-[10px] text-slate-400 mt-6 tracking-wide uppercase">Flux App v1.0.0</p>
+    </div>
+
+</div>

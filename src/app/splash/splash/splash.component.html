@@ -1,0 +1,42 @@
+<div class="relative flex flex-col items-center justify-center min-h-screen bg-background-light overflow-hidden">
+    <!-- Background Decorations -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-30 pointer-events-none">
+        <div
+            class="absolute -top-[20%] -right-[20%] w-[140%] h-[60%] bg-gradient-to-b from-primary-700/10 to-transparent rounded-[100%] blur-3xl transform rotate-12">
+        </div>
+        <div
+            class="absolute top-[40%] -left-[20%] w-[120%] h-[40%] bg-gradient-to-t from-primary-700/5 to-transparent rounded-[100%] blur-2xl transform -rotate-12">
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="z-10 flex flex-col items-center animate-fade-in-up">
+        <div class="mb-6 relative">
+            <div class="absolute inset-0 bg-primary-600/20 rounded-2xl blur-xl transform scale-110"></div>
+            <div
+                class="relative w-24 h-24 bg-primary-600 rounded-2xl shadow-lg flex items-center justify-center text-white">
+                <span class="material-symbols-outlined text-5xl">water_drop</span>
+            </div>
+        </div>
+        <h1 class="text-primary-700 text-[42px] font-extrabold tracking-tight mb-2">Flux</h1>
+    </div>
+
+    <!-- Config Warning -->
+    @if (showConfigWarning) {
+    <div
+        class="absolute bottom-16 w-full max-w-xs px-6 py-4 bg-red-50 border border-red-200 rounded-xl flex flex-col items-center text-center z-20 animate-fade-in-up">
+        <span class="material-symbols-outlined text-red-500 mb-2">warning</span>
+        <p class="text-red-700 font-bold text-sm">Supabase não configurado</p>
+        <p class="text-red-600 text-xs mt-1">Configure o environment.ts para continuar.</p>
+    </div>
+    }
+
+    @if (!showConfigWarning) {
+    <div class="absolute bottom-16 w-full flex flex-col items-center z-10 gap-4">
+        <div class="w-48 h-1.5 bg-primary-100 rounded-full overflow-hidden">
+            <div class="h-full bg-primary-600 rounded-full animate-progress" style="width: 45%"></div>
+        </div>
+        <p class="text-slate-500 text-sm font-medium tracking-wide">Joint Finance Simplified</p>
+    </div>
+    }
+</div>
