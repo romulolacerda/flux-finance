@@ -1,90 +1,92 @@
 <div class="flex flex-col h-full bg-surface-light min-h-screen">
     <!-- Header -->
-    <header class="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-5 bg-white sticky top-0 z-10 border-b border-slate-100">
+    <header class="flex items-center justify-between px-4 py-3 sm:px-8 sm:py-6 bg-white sticky top-0 z-10 border-b border-slate-100 shadow-sm transition-all">
         <div class="flex items-center gap-3">
             <div class="flex items-center gap-2 text-primary-600">
-                <span class="material-symbols-outlined text-3xl">all_inclusive</span>
-                <h1 class="text-xl font-bold text-slate-900">Flux</h1>
+                <span class="material-symbols-outlined text-3xl sm:text-4xl">all_inclusive</span>
+                <h1 class="text-xl sm:text-2xl font-bold text-slate-900">Flux</h1>
             </div>
         </div>
-        <div class="h-10 w-10 rounded-full bg-slate-200 overflow-hidden border-2 border-white shadow-sm">
+        <div class="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-slate-200 overflow-hidden border-2 border-white shadow-sm transition-all">
             <img src="https://picsum.photos/100/100" alt="Profile" class="w-full h-full object-cover">
         </div>
     </header>
 
-    <div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-6">
+    <div class="p-4 sm:p-8 md:p-12 flex flex-col gap-4 sm:gap-8 max-w-2xl w-full mx-auto transition-all">
 
-        <div class="mt-2">
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Gestão de Renda</h1>
-            <p class="text-slate-500 text-sm mt-2 leading-relaxed">
+        <div class="mt-2 sm:mt-4 text-center sm:text-left">
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Gestão de Renda</h1>
+            <p class="text-slate-500 text-sm sm:text-base mt-2 leading-relaxed max-w-lg">
                 Defina a renda mensal de cada pessoa para calcularmos a divisão justa das despesas.
             </p>
         </div>
 
-        <!-- Input Person A -->
-        <app-input 
-            [label]="calcService.personA().name" 
-            prefix="R$" 
-            icon="person"
-            [ngModel]="incomeADisplay"
-            (ngModelChange)="onInputChange($event, 'A')"
-            (focusEvent)="handleFocus('A')"
-            (blurEvent)="handleBlur('A')">
-        </app-input>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            <!-- Input Person A -->
+            <app-input 
+                [label]="calcService.personA().name" 
+                prefix="R$" 
+                icon="person"
+                [ngModel]="incomeADisplay"
+                (ngModelChange)="onInputChange($event, 'A')"
+                (focusEvent)="handleFocus('A')"
+                (blurEvent)="handleBlur('A')">
+            </app-input>
 
-        <!-- Input Person B -->
-        <app-input 
-            [label]="calcService.personB().name" 
-            prefix="R$" 
-            icon="person"
-            [ngModel]="incomeBDisplay"
-            (ngModelChange)="onInputChange($event, 'B')"
-            (focusEvent)="handleFocus('B')"
-            (blurEvent)="handleBlur('B')">
-        </app-input>
+            <!-- Input Person B -->
+            <app-input 
+                [label]="calcService.personB().name" 
+                prefix="R$" 
+                icon="person"
+                [ngModel]="incomeBDisplay"
+                (ngModelChange)="onInputChange($event, 'B')"
+                (focusEvent)="handleFocus('B')"
+                (blurEvent)="handleBlur('B')">
+            </app-input>
+        </div>
 
         <!-- Visualization Card -->
         <div
-            class="mt-4 p-6 bg-gradient-to-br from-primary-50 to-white rounded-2xl border border-primary-100 shadow-sm">
-            <div class="flex justify-between items-end mb-4">
+            class="mt-4 p-6 sm:p-8 bg-gradient-to-br from-primary-50 to-white rounded-2xl sm:rounded-3xl border border-primary-100 shadow-sm hover:shadow-md transition-all duration-300">
+            <div class="flex justify-between items-end mb-4 sm:mb-6">
                 <div>
-                    <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Renda Total</p>
-                    <p class="text-3xl font-black text-slate-900">
+                    <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">Renda Total</p>
+                    <p class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
                         {{ currentTotal | currency:'BRL':'symbol':'1.2-2' }}
                     </p>
                 </div>
-                <div class="bg-success/10 text-success px-2 py-1 rounded-lg flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">trending_up</span>
-                    <span class="text-xs font-bold">+2%</span>
+                <div class="bg-primary-100 text-primary-700 px-3 py-1.5 rounded-xl flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm sm:text-base">trending_up</span>
+                    <span class="text-xs sm:text-sm font-bold">Atualizado</span>
                 </div>
             </div>
 
-            <div class="h-px bg-primary-100 w-full mb-4"></div>
+            <div class="h-px bg-primary-100 w-full mb-4 sm:mb-6"></div>
 
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-bold text-slate-700">Divisão Proporcional</span>
-                <span class="text-sm font-bold text-primary-600">
+            <div class="flex justify-between items-center mb-2 sm:mb-3">
+                <span class="text-sm sm:text-base font-bold text-slate-700">Divisão Proporcional</span>
+                <span class="text-sm sm:text-base font-bold text-primary-600">
                     {{ (ratioA * 100).toFixed(1) }}% / {{ (ratioB * 100).toFixed(1) }}%
                 </span>
             </div>
 
             <!-- Progress Bar -->
-            <div class="relative h-4 w-full bg-white rounded-full overflow-hidden shadow-inner border border-slate-100">
-                <div class="absolute top-0 left-0 h-full bg-primary-600 transition-all duration-300 ease-out"
+            <div class="relative h-4 sm:h-5 w-full bg-white rounded-full overflow-hidden shadow-inner border border-slate-100">
+                <div class="absolute top-0 left-0 h-full bg-primary-600 transition-all duration-500 ease-out"
                     [style.width.%]="ratioA * 100">
                 </div>
                 <!-- Divider -->
-                <div class="absolute top-0 h-full w-1 bg-white z-10" [style.left.%]="ratioA * 100"></div>
+                <div class="absolute top-0 h-full w-1 bg-white z-10 shadow-[0_0_10px_rgba(0,0,0,0.1)]" [style.left.%]="ratioA * 100"></div>
             </div>
 
-            <div class="flex justify-between mt-2 text-xs font-medium text-slate-500">
+            <div class="flex justify-between mt-3 text-xs sm:text-sm font-medium text-slate-500">
                 <span>{{ calcService.personA().name }}</span>
                 <span>{{ calcService.personB().name }}</span>
             </div>
         </div>
 
-        <app-button (click)="save()">
-            <span>Salvar Renda</span>
+        <app-button (click)="save()" class="w-full sm:w-auto sm:self-end">
+            <span class="text-base sm:text-lg">Salvar Renda</span>
             <span class="material-symbols-outlined">arrow_forward</span>
         </app-button>
 
