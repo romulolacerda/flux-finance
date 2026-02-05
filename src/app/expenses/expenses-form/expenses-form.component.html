@@ -1,7 +1,7 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/50 backdrop-blur-sm">
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
 
     <div
-        class="w-full max-w-[480px] bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col animate-scale-in">
+        class="w-full max-w-[480px] bg-white rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto flex flex-col animate-scale-in pb-8">
 
         <!-- Header -->
         <header class="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-slate-100 bg-white">
@@ -18,7 +18,7 @@
         </header>
 
         <!-- Form -->
-        <form [formGroup]="form" (ngSubmit)="submit()" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
+        <form [formGroup]="form" (ngSubmit)="submit()" class="p-4 sm:p-6 space-y-4 sm:space-y-6">
 
             <!-- Amount -->
             <app-input
