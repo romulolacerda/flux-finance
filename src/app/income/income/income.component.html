@@ -24,19 +24,23 @@
         <!-- Input Person A -->
         <app-input 
             [label]="calcService.personA().name" 
-            type="number" 
             prefix="R$" 
             icon="person"
-            [(ngModel)]="incomeA">
+            [ngModel]="incomeADisplay"
+            (ngModelChange)="onInputChange($event, 'A')"
+            (focusEvent)="handleFocus('A')"
+            (blurEvent)="handleBlur('A')">
         </app-input>
 
         <!-- Input Person B -->
         <app-input 
             [label]="calcService.personB().name" 
-            type="number" 
             prefix="R$" 
             icon="person"
-            [(ngModel)]="incomeB">
+            [ngModel]="incomeBDisplay"
+            (ngModelChange)="onInputChange($event, 'B')"
+            (focusEvent)="handleFocus('B')"
+            (blurEvent)="handleBlur('B')">
         </app-input>
 
         <!-- Visualization Card -->
@@ -60,7 +64,7 @@
             <div class="flex justify-between items-center mb-2">
                 <span class="text-sm font-bold text-slate-700">Divisão Proporcional</span>
                 <span class="text-sm font-bold text-primary-600">
-                    {{ (ratioA * 100).toFixed(0) }}% / {{ (ratioB * 100).toFixed(0) }}%
+                    {{ (ratioA * 100).toFixed(1) }}% / {{ (ratioB * 100).toFixed(1) }}%
                 </span>
             </div>
 

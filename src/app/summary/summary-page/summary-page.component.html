@@ -46,7 +46,7 @@
                             <p class="font-bold text-slate-900">{{ calcService.personA().name }}</p>
                             <span
                                 class="text-[10px] bg-indigo-50 text-primary-600 px-2 py-0.5 rounded-full font-bold border border-indigo-100">
-                                {{ (calcService.ratioA() * 100).toFixed(0) }}%
+                                {{ (calcService.ratioA() * 100).toFixed(1) }}%
                             </span>
                         </div>
                         <p class="text-xs text-slate-400">Renda Principal</p>
@@ -81,7 +81,7 @@
                             <p class="font-bold text-slate-900">{{ calcService.personB().name }}</p>
                             <span
                                 class="text-[10px] bg-orange-50 text-orange-600 px-2 py-0.5 rounded-full font-bold border border-orange-100">
-                                {{ (calcService.ratioB() * 100).toFixed(0) }}%
+                                {{ (calcService.ratioB() * 100).toFixed(1) }}%
                             </span>
                         </div>
                         <p class="text-xs text-slate-400">Parceiro</p>
@@ -106,6 +106,7 @@
         <!-- CTA -->
         <div class="mt-4">
             <button
+                (click)="markAsPaid()"
                 class="w-full bg-success hover:bg-green-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-success/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
                 <span class="material-symbols-outlined">check_circle</span>
                 Marcar como Pago

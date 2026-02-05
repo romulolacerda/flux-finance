@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -24,6 +24,9 @@ export class InputComponent implements ControlValueAccessor {
     @Input() prefix = '';
     @Input() error: string | null = null;
     @Input() showPasswordToggle = false;
+
+    @Output() focusEvent = new EventEmitter<void>();
+    @Output() blurEvent = new EventEmitter<void>();
 
     value: any = '';
     isDisabled = false;
@@ -61,6 +64,15 @@ export class InputComponent implements ControlValueAccessor {
 
     setDisabledState(isDisabled: boolean): void {
         this.isDisabled = isDisabled;
+    }
+
+    onFocus() {
+        this.focusEvent.emit();
+    }
+
+    onBlur() {
+        this.onTouch();
+        this.blurEvent.emit();
     }
 
     onInput(event: Event) {

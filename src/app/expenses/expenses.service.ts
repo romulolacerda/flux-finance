@@ -1,6 +1,8 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
+import Decimal from 'decimal.js';
 import { SupabaseService } from '../core/supabase.service';
 import { Expense } from '../shared/interfaces/expense.interface';
+import { toDecimal, sumDecimals, fromDecimal } from '../shared/utils/decimal-utils';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +12,11 @@ export class ExpensesService {
 
     expenses = signal<Expense[]>([]);
 
-    totalExpenses = computed(() => this.expenses().reduce((acc, curr) => acc + curr.amount, 0));
+    // Use Decimal for precise summation of expenses
+    totalExpenses = computed(() => {
+        const decimals = this.expenses().map(e => toDecimal(e.amount));
+        return fromDecimal(sumDecimals(...decimals));
+    });
 
     async loadExpenses() {
         const { data, error } = await this.supabase.client

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CalculatorService } from '../calculator.service';
 import { IncomeService } from '../../income/income.service';
 import { ExpensesService } from '../../expenses/expenses.service';
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
     selector: 'app-summary-page',
@@ -15,10 +16,15 @@ export class SummaryPageComponent implements OnInit {
     calcService = inject(CalculatorService);
     private incomeService = inject(IncomeService);
     private expensesService = inject(ExpensesService);
+    private alertService = inject(AlertService);
 
     ngOnInit() {
         // Load fresh data from Supabase when summary page is accessed
         this.incomeService.loadIncomes();
         this.expensesService.loadExpenses();
+    }
+
+    markAsPaid() {
+        this.alertService.success('Contas marcadas como pagas!');
     }
 }

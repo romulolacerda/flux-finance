@@ -1,6 +1,8 @@
 import { Injectable, inject, computed } from '@angular/core';
+import Decimal from 'decimal.js';
 import { IncomeService } from '../income/income.service';
 import { ExpensesService } from '../expenses/expenses.service';
+import { toDecimal, calculateRatio, fromDecimal } from '../shared/utils/decimal-utils';
 
 @Injectable({
     providedIn: 'root'
@@ -12,47 +14,62 @@ export class CalculatorService {
     // Computeds
     personA = computed(() => {
         const inc = this.incomeService.incomes()[0];
-        // Ensure amount is strictly a number, treating null/undefined as 0
-        const amount = inc?.amount ? Number(inc.amount) : 0;
+        // Convert to Decimal for precise calculations
+        const amount = toDecimal(inc?.amount);
         return { 
-            id: inc?.id, // Keep ID for component compatibility
+            id: inc?.id,
             name: inc?.name ?? 'Pessoa A', 
-            amount: isNaN(amount) ? 0 : amount 
+            amount: fromDecimal(amount) // Return as number for compatibility
         };
     });
 
     personB = computed(() => {
         const inc = this.incomeService.incomes()[1];
-        const amount = inc?.amount ? Number(inc.amount) : 0;
+        const amount = toDecimal(inc?.amount);
         return { 
             id: inc?.id, 
             name: inc?.name ?? 'Pessoa B', 
-            amount: isNaN(amount) ? 0 : amount 
+            amount: fromDecimal(amount)
         };
     });
 
     totalIncome = computed(() => {
-        const a = this.personA().amount;
-        const b = this.personB().amount;
-        return Number(a) + Number(b);
+        const a = toDecimal(this.personA().amount);
+        const b = toDecimal(this.personB().amount);
+        // Use Decimal addition for precision
+        return fromDecimal(a.plus(b));
     });
 
     ratioA = computed(() => {
-        const total = this.totalIncome();
-        // Avoid division by zero
-        if (!total || total <= 0) return 0;
-        return this.personA().amount / total;
+        const total = toDecimal(this.totalIncome());
+        const partA = toDecimal(this.personA().amount);
+        // Use Decimal division for precise ratio calculation
+        const ratio = calculateRatio(partA, total);
+        // Round to 1 decimal place percentage (e.g., 60.6%) for calculation
+        // This ensures the calculation matches the displayed percentage
+        return fromDecimal(ratio.times(100).toDecimalPlaces(1).dividedBy(100));
     });
 
     ratioB = computed(() => {
-        const total = this.totalIncome();
-        if (!total || total <= 0) return 0;
-        return this.personB().amount / total;
+        const total = toDecimal(this.totalIncome());
+        const partB = toDecimal(this.personB().amount);
+        const ratio = calculateRatio(partB, total);
+        // Round to 1 decimal place percentage (e.g., 39.4%)
+        return fromDecimal(ratio.times(100).toDecimalPlaces(1).dividedBy(100));
     });
 
     totalExpenses = this.expensesService.totalExpenses;
 
-    // Specific shares
-    shareA = computed(() => this.totalExpenses() * this.ratioA());
-    shareB = computed(() => this.totalExpenses() * this.ratioB());
+    // Specific shares - using Decimal multiplication for precision
+    shareA = computed(() => {
+        const total = toDecimal(this.totalExpenses());
+        const ratio = toDecimal(this.ratioA());
+        return fromDecimal(total.times(ratio));
+    });
+
+    shareB = computed(() => {
+        const total = toDecimal(this.totalExpenses());
+        const ratio = toDecimal(this.ratioB());
+        return fromDecimal(total.times(ratio));
+    });
 }
