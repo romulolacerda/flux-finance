@@ -4,11 +4,12 @@ import { CalculatorService } from '../calculator.service';
 import { IncomeService } from '../../income/income.service';
 import { ExpensesService } from '../../expenses/expenses.service';
 import { AlertService } from '../../shared/services/alert.service';
+import { BrlCurrencyPipe } from '../../shared/pipes/brl-currency.pipe';
 
 @Component({
     selector: 'app-summary-page',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, BrlCurrencyPipe],
     templateUrl: './summary-page.component.html',
     styleUrls: ['./summary-page.component.scss']
 })

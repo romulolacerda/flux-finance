@@ -22,8 +22,7 @@
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Minhas Contas</h2>
                     <div class="flex items-baseline gap-2">
                         <span class="text-sm sm:text-base font-medium text-slate-500">Total este mês:</span>
-                        <span class="text-xl sm:text-2xl font-bold text-primary-600 transition-all">{{ calcService.totalExpenses() |
-                            currency:'BRL':'symbol':'1.2-2' }}</span>
+                        <span class="text-xl sm:text-2xl font-bold text-primary-600 transition-all">{{ calcService.totalExpenses() | brlCurrency }}</span>
                     </div>
                 </div>
             </div>
@@ -69,7 +68,7 @@
                 </div>
     
                 <div class="flex items-center gap-3 sm:gap-4">
-                    <p class="text-base sm:text-lg font-bold text-slate-900">{{ bill.amount | currency:'BRL':'symbol':'1.2-2' }}</p>
+                    <p class="text-base sm:text-lg font-bold text-slate-900">{{ bill.amount | brlCurrency }}</p>
                     <button (click)="deleteBill(bill.id!, !!bill.is_installment); $event.stopPropagation()"
                         class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all z-10">
                         <span class="material-symbols-outlined text-[20px] sm:text-[24px]">delete</span>

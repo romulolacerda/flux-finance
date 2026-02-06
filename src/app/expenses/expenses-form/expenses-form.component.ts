@@ -7,11 +7,12 @@ import { SelectComponent, SelectOption } from '../../shared/components/select/se
 import { AlertService } from '../../shared/services/alert.service';
 import { toDecimal, fromDecimal } from '../../shared/utils/decimal-utils';
 import { CommonModule } from '@angular/common';
+import { BrlCurrencyPipe } from '../../shared/pipes/brl-currency.pipe';
 
 @Component({
     selector: 'app-expenses-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, RouterLink, InputComponent, SelectComponent],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink, InputComponent, SelectComponent, BrlCurrencyPipe],
     templateUrl: './expenses-form.component.html',
     styleUrls: ['./expenses-form.component.scss']
 })

@@ -25,23 +25,19 @@
             <!-- Input Person A -->
             <app-input 
                 [label]="calcService.personA().name" 
-                prefix="R$" 
                 icon="person"
-                [ngModel]="incomeADisplay"
-                (ngModelChange)="onInputChange($event, 'A')"
-                (focusEvent)="handleFocus('A')"
-                (blurEvent)="handleBlur('A')">
+                type="currency"
+                placeholder="R$ 0,00"
+                [(ngModel)]="incomeA">
             </app-input>
 
             <!-- Input Person B -->
             <app-input 
                 [label]="calcService.personB().name" 
-                prefix="R$" 
                 icon="person"
-                [ngModel]="incomeBDisplay"
-                (ngModelChange)="onInputChange($event, 'B')"
-                (focusEvent)="handleFocus('B')"
-                (blurEvent)="handleBlur('B')">
+                type="currency"
+                placeholder="R$ 0,00"
+                [(ngModel)]="incomeB">
             </app-input>
         </div>
 
@@ -52,7 +48,7 @@
                 <div>
                     <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">Renda Total</p>
                     <p class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-                        {{ currentTotal | currency:'BRL':'symbol':'1.2-2' }}
+                        {{ currentTotal | brlCurrency }}
                     </p>
                 </div>
                 <div class="bg-primary-100 text-primary-700 px-3 py-1.5 rounded-xl flex items-center gap-1">

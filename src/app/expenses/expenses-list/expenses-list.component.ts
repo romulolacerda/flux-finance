@@ -6,11 +6,12 @@ import { CalculatorService } from '../../summary/calculator.service';
 import { AlertService } from '../../shared/services/alert.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { MonthSelectorComponent } from '../../shared/components/month-selector/month-selector.component';
+import { BrlCurrencyPipe } from '../../shared/pipes/brl-currency.pipe';
 
 @Component({
     selector: 'app-expenses-list',
     standalone: true,
-    imports: [CommonModule, RouterLink, MonthSelectorComponent],
+    imports: [CommonModule, RouterLink, MonthSelectorComponent, BrlCurrencyPipe],
     templateUrl: './expenses-list.component.html',
     styleUrls: ['./expenses-list.component.scss']
 })

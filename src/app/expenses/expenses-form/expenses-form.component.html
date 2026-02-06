@@ -1,10 +1,10 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
 
     <div
-        class="w-full max-w-[480px] bg-white rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto flex flex-col animate-scale-in pb-8">
+        class="w-full max-w-[480px] bg-white rounded-3xl shadow-2xl h-full max-h-[90dvh] flex flex-col animate-scale-in">
 
         <!-- Header -->
-        <header class="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-slate-100 bg-white">
+        <header class="flex-none flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-slate-100 bg-white z-10 rounded-t-3xl">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center text-primary-600">
                     <span class="material-symbols-outlined">receipt_long</span>
@@ -12,101 +12,103 @@
                 <h2 class="text-xl font-bold text-slate-900">Nova Conta</h2>
             </div>
             <a routerLink="/app/expenses"
-                class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-500 transition-colors">
+                class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-500 transition-colors cursor-pointer">
                 <span class="material-symbols-outlined">close</span>
             </a>
         </header>
 
-        <!-- Form -->
-        <form [formGroup]="form" (ngSubmit)="submit()" class="p-4 sm:p-6 space-y-4 sm:space-y-6">
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto overscroll-contain min-h-0">
+            <form [formGroup]="form" (ngSubmit)="submit()" class="p-4 sm:p-6 space-y-4 sm:space-y-6">
 
-            <!-- Toggle Installments -->
-            <div class="flex items-center justify-between p-4 rounded-xl bg-indigo-50 border border-indigo-100 mb-2">
-                <div class="flex flex-col">
-                    <span class="font-bold text-slate-900 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-indigo-600">credit_card</span>
-                        Compra Parcelada?
-                    </span>
-                    <span class="text-xs text-slate-500 mt-0.5">Habilite para dividir o valor</span>
-                </div>
-                <!-- Toggle Switch -->
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" formControlName="is_installment" class="sr-only peer">
-                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-                </label>
-            </div>
-
-            <!-- Amount (Changes Label based on toggle) -->
-            <app-input
-                [label]="form.get('is_installment')?.value ? 'Valor Total da Compra' : 'Valor da Conta'"
-                type="number"
-                prefix="R$"
-                placeholder="0,00"
-                formControlName="amount"
-                [error]="form.get('amount')?.touched && form.get('amount')?.invalid ? 'Valor inválido' : null">
-            </app-input>
-
-            <!-- Installment Details (Conditional) -->
-             @if (form.get('is_installment')?.value) {
-                <div class="animate-fade-in space-y-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                    <app-input
-                        label="Número de Parcelas"
-                        type="number"
-                        placeholder="Ex: 12"
-                        formControlName="installment_total"
-                        [error]="form.get('installment_total')?.touched && form.get('installment_total')?.invalid ? 'Obrigatório (min 2)' : null">
-                    </app-input>
-
-                    <!-- Calculated Value Display -->
-                     <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200 shadow-sm">
-                        <span class="text-sm font-medium text-slate-500">Valor da Parcela:</span>
-                        <span class="text-lg font-bold text-indigo-600">
-                            {{ calculatedInstallmentValue() | currency:'BRL':'symbol':'1.2-2' }}
+                <!-- Toggle Installments -->
+                <div class="flex items-center justify-between p-4 rounded-xl bg-indigo-50 border border-indigo-100 mb-2">
+                    <div class="flex flex-col">
+                        <span class="font-bold text-slate-900 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-indigo-600">credit_card</span>
+                            Compra Parcelada?
                         </span>
-                     </div>
+                        <span class="text-xs text-slate-500 mt-0.5">Habilite para dividir o valor</span>
+                    </div>
+                    <!-- Toggle Switch -->
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" formControlName="is_installment" class="sr-only peer">
+                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                    </label>
                 </div>
-             }
 
-            <!-- Name -->
-            <app-input
-                label="Nome da conta"
-                type="text"
-                icon="edit"
-                placeholder="Ex: Conta de Luz"
-                formControlName="name"
-                [error]="form.get('name')?.touched && form.get('name')?.invalid ? 'Nome obrigatório' : null">
-            </app-input>
+                <!-- Amount (Changes Label based on toggle) -->
+                <!-- Amount (Changes Label based on toggle) -->
+                <app-input
+                    [label]="form.get('is_installment')?.value ? 'Valor Total da Compra' : 'Valor da Conta'"
+                    type="currency"
+                    placeholder="R$ 0,00"
+                    formControlName="amount"
+                    [error]="form.get('amount')?.touched && form.get('amount')?.invalid ? 'Valor inválido' : null">
+                </app-input>
 
-            <!-- Category -->
-            <app-select
-                label="Categoria"
-                placeholder="Selecione"
-                icon="category"
-                [options]="categories"
-                formControlName="category"
-                [error]="form.get('category')?.touched && form.get('category')?.invalid ? 'Categoria obrigatória' : null">
-            </app-select>
+                <!-- Installment Details (Conditional) -->
+                 @if (form.get('is_installment')?.value) {
+                    <div class="animate-fade-in space-y-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                        <app-input
+                            label="Número de Parcelas"
+                            type="number"
+                            placeholder="Ex: 12"
+                            formControlName="installment_total"
+                            [error]="form.get('installment_total')?.touched && form.get('installment_total')?.invalid ? 'Obrigatório (min 2)' : null">
+                        </app-input>
 
-            <!-- Date Selection -->
-            <div class="grid grid-cols-2 gap-4">
+                        <!-- Calculated Value Display -->
+                         <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200 shadow-sm">
+                            <span class="text-sm font-medium text-slate-500">Valor da Parcela:</span>
+                            <span class="text-lg font-bold text-indigo-600">
+                                {{ calculatedInstallmentValue() | brlCurrency }}
+                            </span>
+                         </div>
+                    </div>
+                 }
+
+                <!-- Name -->
+                <app-input
+                    label="Nome da conta"
+                    type="text"
+                    icon="edit"
+                    placeholder="Ex: Conta de Luz"
+                    formControlName="name"
+                    [error]="form.get('name')?.touched && form.get('name')?.invalid ? 'Nome obrigatório' : null">
+                </app-input>
+
+                <!-- Category -->
                 <app-select
-                    label="Mês de Início/Vencimento"
-                    [options]="months"
-                    formControlName="month"
-                    icon="calendar_month">
+                    label="Categoria"
+                    placeholder="Selecione"
+                    icon="category"
+                    [options]="categories"
+                    formControlName="category"
+                    [error]="form.get('category')?.touched && form.get('category')?.invalid ? 'Categoria obrigatória' : null">
                 </app-select>
-                <app-select
-                    label="Ano"
-                    [options]="years"
-                    formControlName="year"
-                    icon="calendar_today">
-                </app-select>
-            </div>
 
-        </form>
+                <!-- Date Selection -->
+                <div class="grid grid-cols-2 gap-4 pb-4 date-grid">
+                    <app-select
+                        label="Mês de Início/Vencimento"
+                        [options]="months"
+                        formControlName="month"
+                        icon="calendar_month">
+                    </app-select>
+                    <app-select
+                        label="Ano"
+                        [options]="years"
+                        formControlName="year"
+                        icon="calendar_today">
+                    </app-select>
+                </div>
+
+            </form>
+        </div>
 
         <!-- Footer -->
-        <div class="p-4 sm:p-6 border-t border-slate-100 bg-white">
+        <div class="flex-none w-full px-4 sm:px-6 pt-4 pb-6 mb-safe border-t border-slate-100 bg-white z-10 rounded-b-3xl">
             <button (click)="submit()" [disabled]="form.invalid"
                 class="w-full flex items-center justify-center gap-2 bg-primary-600 disabled:opacity-50 hover:bg-primary-700 text-white font-bold text-lg py-3.5 rounded-xl shadow-lg shadow-primary-600/30 transition-all active:scale-[0.98]">
                 <span>Salvar Conta</span>

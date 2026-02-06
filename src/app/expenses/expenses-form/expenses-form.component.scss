@@ -13,3 +13,13 @@
 .animate-scale-in {
     animation: scale-in 0.2s ease-out forwards;
 }
+
+/* Fix for Date Alignment */
+.date-grid {
+    app-select {
+        ::ng-deep label > span.flex {
+            min-height: 2.75rem; /* ~44px to accommodate 2 lines */
+            align-items: flex-end; /* Align single line labels to bottom */
+        }
+    }
+}

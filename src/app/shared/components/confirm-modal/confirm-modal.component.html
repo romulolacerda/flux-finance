@@ -3,11 +3,16 @@
     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" (click)="cancel()"></div>
 
     <!-- Modal Card -->
-    <div class="relative bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm sm:max-w-md md:max-w-lg animate-scale-in max-h-[90vh] overflow-y-auto">
-        <h3 class="text-xl font-bold text-slate-900 mb-2">{{ options.title }}</h3>
-        <p class="text-slate-600 mb-6 leading-relaxed">{{ options.message }}</p>
+    <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md md:max-w-lg animate-scale-in max-h-[90dvh] flex flex-col">
+        
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-6 overscroll-contain min-h-0">
+            <h3 class="text-xl font-bold text-slate-900 mb-2">{{ options.title }}</h3>
+            <p class="text-slate-600 leading-relaxed">{{ options.message }}</p>
+        </div>
 
-        <div class="flex items-center justify-end gap-3">
+        <!-- Sticky Footer -->
+        <div class="flex-none px-4 pt-4 pb-6 mb-safe bg-white border-t border-slate-100 flex items-center justify-end gap-3 z-10 rounded-b-2xl">
             <button 
                 class="px-4 py-2 rounded-xl text-slate-600 font-bold hover:bg-slate-100 transition-colors"
                 (click)="cancel()">
