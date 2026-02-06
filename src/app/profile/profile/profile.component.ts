@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { SupabaseService } from '../../core/supabase.service';
 import { FormsModule } from '@angular/forms';
 import { InputComponent } from '../../shared/components/input/input.component';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 
 @Component({
     selector: 'app-profile',
     standalone: true,
-    imports: [InputComponent, FormsModule],
+    imports: [InputComponent, FormsModule, HeaderComponent],
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss']
 })
