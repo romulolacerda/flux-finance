@@ -5,11 +5,12 @@ import { IncomeService } from '../../income/income.service';
 import { ExpensesService } from '../../expenses/expenses.service';
 import { AlertService } from '../../shared/services/alert.service';
 import { BrlCurrencyPipe } from '../../shared/pipes/brl-currency.pipe';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 
 @Component({
     selector: 'app-summary-page',
     standalone: true,
-    imports: [CommonModule, BrlCurrencyPipe],
+    imports: [CommonModule, BrlCurrencyPipe, HeaderComponent],
     templateUrl: './summary-page.component.html',
     styleUrls: ['./summary-page.component.scss']
 })

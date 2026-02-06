@@ -9,11 +9,12 @@ import { InputComponent } from '../../shared/components/input/input.component';
 import { toDecimal, calculateRatio, fromDecimal } from '../../shared/utils/decimal-utils';
 import { AlertService } from '../../shared/services/alert.service';
 import { BrlCurrencyPipe } from '../../shared/pipes/brl-currency.pipe';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 
 @Component({
     selector: 'app-income',
     standalone: true,
-    imports: [CommonModule, FormsModule, ButtonComponent, InputComponent, BrlCurrencyPipe],
+    imports: [CommonModule, FormsModule, ButtonComponent, InputComponent, BrlCurrencyPipe, HeaderComponent],
     templateUrl: './income.component.html',
     styleUrls: ['./income.component.scss']
 })
