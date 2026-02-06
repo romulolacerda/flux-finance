@@ -1,47 +1,34 @@
 <div class="flex flex-col h-full min-h-screen bg-background-light">
 
-    <!-- Header -->
-    <header class="flex flex-col bg-white sticky top-0 z-20 border-b border-slate-100 shadow-sm safe-top">
-        <!-- Logo & Profile -->
-        <div class="flex items-center justify-between px-4 py-3 sm:px-8 sm:py-6 border-b border-slate-100 max-w-5xl mx-auto w-full">
-            <div class="flex items-center gap-3">
-                <div class="flex items-center gap-2 text-primary-600">
-                    <span class="material-symbols-outlined text-3xl sm:text-4xl text-primary-600">all_inclusive</span>
-                    <h1 class="text-xl sm:text-2xl font-bold text-slate-900">Flux</h1>
+    <!-- Standard Header -->
+    <app-header></app-header>
+
+    <div class="max-w-5xl mx-auto w-full pb-4">
+        <!-- Title & Stats -->
+        <div class="px-6 pt-6 pb-2 sm:px-8 sm:pt-8">
+            <div class="flex flex-col gap-1 mt-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Minhas Contas</h2>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-sm sm:text-base font-medium text-slate-500">Total este mês:</span>
+                    <span class="text-xl sm:text-2xl font-bold text-primary-600 transition-all">{{ calcService.totalExpenses() | brlCurrency }}</span>
                 </div>
-            </div>
-            <div class="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-slate-200 overflow-hidden border-2 border-white shadow-sm transition-all hover:scale-105 cursor-pointer">
-                <img src="https://picsum.photos/100/100" alt="Profile" class="w-full h-full object-cover">
             </div>
         </div>
 
-        <div class="max-w-5xl mx-auto w-full pb-4">
-            <!-- Title & Stats -->
-            <div class="px-6 pt-6 pb-2 sm:px-8 sm:pt-8">
-                <div class="flex flex-col gap-1 mt-2">
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Minhas Contas</h2>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-sm sm:text-base font-medium text-slate-500">Total este mês:</span>
-                        <span class="text-xl sm:text-2xl font-bold text-primary-600 transition-all">{{ calcService.totalExpenses() | brlCurrency }}</span>
-                    </div>
-                </div>
+        <!-- Month Selector -->
+            <div class="mt-2">
+            <app-month-selector
+                [selectedMonth]="expensesService.selectedMonth()"
+                [selectedYear]="expensesService.selectedYear()"
+                [availableYears]="availableYears"
+                (monthChange)="onMonthChange($event)"
+                (yearChange)="onYearChange($event)">
+            </app-month-selector>
             </div>
-
-            <!-- Month Selector -->
-             <div class="mt-2">
-                <app-month-selector
-                    [selectedMonth]="expensesService.selectedMonth()"
-                    [selectedYear]="expensesService.selectedYear()"
-                    [availableYears]="availableYears"
-                    (monthChange)="onMonthChange($event)"
-                    (yearChange)="onYearChange($event)">
-                </app-month-selector>
-             </div>
-        </div>
-    </header>
+    </div>
 
     <!-- List -->
-    <div class="flex-1 p-4 pb-32 sm:p-8 sm:pb-32 flex flex-col gap-3 max-w-5xl mx-auto w-full">
+    <div class="flex-1 p-4 pb-[120px] sm:p-8 sm:pb-[120px] flex flex-col gap-3 max-w-5xl mx-auto w-full">
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 w-full">
             @for (bill of expensesService.expenses(); track bill.id) {
@@ -85,10 +72,10 @@
     </div>
 
     <!-- FAB -->
-    <div class="fixed bottom-0 left-0 w-full flex justify-end px-4 sm:px-8 pointer-events-none z-30 safe-bottom pb-[110px] sm:pb-[120px]">
-        <div class="pointer-events-auto transition-transform hover:scale-110 active:scale-95">
+    <div class="fixed right-6 bottom-24 z-50 safe-bottom pointer-events-auto">
+        <div class="transition-transform hover:scale-110 active:scale-95 shadow-xl rounded-2xl">
             <a routerLink="/app/expenses/add"
-                class="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-success text-white shadow-lg shadow-success/30 hover:bg-green-600 transition-all">
+                class="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-success text-white hover:bg-green-600 transition-all">
                 <span class="material-symbols-outlined text-3xl sm:text-4xl">add</span>
             </a>
         </div>

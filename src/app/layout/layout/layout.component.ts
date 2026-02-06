@@ -1,5 +1,6 @@
 import { Component, inject, computed, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
+import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { ModalService } from '../../shared/services/modal.service';
 import { filter } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -7,7 +8,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
     selector: 'app-layout',
     standalone: true,
-    imports: [RouterOutlet, RouterLink, RouterLinkActive],
+    imports: [RouterOutlet, RouterLink, RouterLinkActive, BottomNavComponent],
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss']
 })
