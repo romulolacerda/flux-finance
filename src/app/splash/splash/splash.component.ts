@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { SupabaseService } from '../../core/supabase.service';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { CommonModule } from '@angular/common';
 
 @Component({
