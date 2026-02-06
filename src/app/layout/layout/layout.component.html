@@ -1,4 +1,4 @@
-<div class="relative h-screen w-full bg-background-light flex justify-center overflow-hidden">
+<div class="relative h-screen w-full bg-background-light flex justify-center overflow-hidden safe-area">
     <div class="w-full max-w-[480px] sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1024px] h-full bg-background-light shadow-2xl flex flex-col relative mx-auto transition-all duration-300">
         <!-- Main Content Area -->
         <div class="flex-1 overflow-y-auto no-scrollbar w-full pb-32">
@@ -8,7 +8,7 @@
         <!-- Floating Bottom Navigation -->
         @if (showBottomNav()) {
             <nav
-                class="absolute bottom-6 left-4 right-4 sm:left-12 sm:right-12 md:left-32 md:right-32 lg:left-1/3 lg:right-1/3 bg-white/90 backdrop-blur-md border border-white/20 shadow-xl shadow-slate-200/50 rounded-2xl h-20 flex justify-around items-center px-4 z-50 ring-1 ring-slate-900/5 transition-all duration-300 animate-fade-in-up">
+                class="absolute bottom-6 left-4 right-4 sm:left-12 sm:right-12 md:left-32 md:right-32 lg:left-1/3 lg:right-1/3 bg-white/90 backdrop-blur-md border border-white/20 shadow-xl shadow-slate-200/50 rounded-2xl h-20 flex justify-around items-center px-4 z-50 ring-1 ring-slate-900/5 transition-all duration-300 animate-fade-in-up mb-safe">
 
                 <!-- Income -->
                 <a routerLink="/app/income" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
