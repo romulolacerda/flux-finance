@@ -15,9 +15,9 @@
             </div>
         </div>
 
-        <div class="max-w-5xl mx-auto w-full">
+        <div class="max-w-5xl mx-auto w-full pb-4">
             <!-- Title & Stats -->
-            <div class="px-6 pt-6 pb-4 sm:px-8 sm:pt-8">
+            <div class="px-6 pt-6 pb-2 sm:px-8 sm:pt-8">
                 <div class="flex flex-col gap-1 mt-2">
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Minhas Contas</h2>
                     <div class="flex items-baseline gap-2">
@@ -28,15 +28,16 @@
                 </div>
             </div>
 
-            <!-- Tabs -->
-            <div class="flex gap-2 overflow-x-auto px-6 pb-4 sm:px-8 sm:pb-6 no-scrollbar">
-                <button
-                    class="px-5 py-2 sm:px-6 sm:py-2.5 bg-primary-600 text-white rounded-full text-sm sm:text-base font-bold shadow-md shadow-primary-600/30 whitespace-nowrap hover:bg-primary-700 transition-all">Atual</button>
-                <button
-                    class="px-5 py-2 sm:px-6 sm:py-2.5 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-full text-sm sm:text-base font-bold whitespace-nowrap transition-colors">Próximas</button>
-                <button
-                    class="px-5 py-2 sm:px-6 sm:py-2.5 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-full text-sm sm:text-base font-bold whitespace-nowrap transition-colors">Histórico</button>
-            </div>
+            <!-- Month Selector -->
+             <div class="mt-2">
+                <app-month-selector
+                    [selectedMonth]="expensesService.selectedMonth()"
+                    [selectedYear]="expensesService.selectedYear()"
+                    [availableYears]="availableYears"
+                    (monthChange)="onMonthChange($event)"
+                    (yearChange)="onYearChange($event)">
+                </app-month-selector>
+             </div>
         </div>
     </header>
 
@@ -56,13 +57,20 @@
                 </div>
     
                 <div class="flex-1 min-w-0">
-                    <p class="text-base sm:text-lg font-bold text-slate-900 truncate group-hover:text-primary-700 transition-colors">{{ bill.name }}</p>
+                    <div class="flex items-center gap-2">
+                        <p class="text-base sm:text-lg font-bold text-slate-900 truncate group-hover:text-primary-700 transition-colors">{{ bill.name }}</p>
+                        @if (bill.is_installment) {
+                            <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] sm:text-xs font-bold tracking-wide border border-slate-200">
+                                {{ bill.current_installment }}/{{ bill.installment_total }}
+                            </span>
+                        }
+                    </div>
                     <p class="text-xs sm:text-sm font-medium text-slate-500 truncate">{{ bill.category }}</p>
                 </div>
     
                 <div class="flex items-center gap-3 sm:gap-4">
                     <p class="text-base sm:text-lg font-bold text-slate-900">{{ bill.amount | currency:'BRL':'symbol':'1.2-2' }}</p>
-                    <button (click)="deleteBill(bill.id!); $event.stopPropagation()"
+                    <button (click)="deleteBill(bill.id!, !!bill.is_installment); $event.stopPropagation()"
                         class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all z-10">
                         <span class="material-symbols-outlined text-[20px] sm:text-[24px]">delete</span>
                     </button>
@@ -71,7 +79,7 @@
             } @empty {
             <div class="flex flex-col items-center justify-center py-20 text-slate-400 col-span-full">
                 <span class="material-symbols-outlined text-6xl mb-4 opacity-50">receipt</span>
-                <p class="text-lg">Nenhuma conta cadastrada.</p>
+                <p class="text-lg">Nenhuma conta para este mês.</p>
             </div>
             }
         </div>

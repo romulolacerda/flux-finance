@@ -20,15 +20,52 @@
         <!-- Form -->
         <form [formGroup]="form" (ngSubmit)="submit()" class="p-4 sm:p-6 space-y-4 sm:space-y-6">
 
-            <!-- Amount -->
+            <!-- Toggle Installments -->
+            <div class="flex items-center justify-between p-4 rounded-xl bg-indigo-50 border border-indigo-100 mb-2">
+                <div class="flex flex-col">
+                    <span class="font-bold text-slate-900 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-indigo-600">credit_card</span>
+                        Compra Parcelada?
+                    </span>
+                    <span class="text-xs text-slate-500 mt-0.5">Habilite para dividir o valor</span>
+                </div>
+                <!-- Toggle Switch -->
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" formControlName="is_installment" class="sr-only peer">
+                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                </label>
+            </div>
+
+            <!-- Amount (Changes Label based on toggle) -->
             <app-input
-                label="Valor"
+                [label]="form.get('is_installment')?.value ? 'Valor Total da Compra' : 'Valor da Conta'"
                 type="number"
                 prefix="R$"
                 placeholder="0,00"
                 formControlName="amount"
                 [error]="form.get('amount')?.touched && form.get('amount')?.invalid ? 'Valor inválido' : null">
             </app-input>
+
+            <!-- Installment Details (Conditional) -->
+             @if (form.get('is_installment')?.value) {
+                <div class="animate-fade-in space-y-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <app-input
+                        label="Número de Parcelas"
+                        type="number"
+                        placeholder="Ex: 12"
+                        formControlName="installment_total"
+                        [error]="form.get('installment_total')?.touched && form.get('installment_total')?.invalid ? 'Obrigatório (min 2)' : null">
+                    </app-input>
+
+                    <!-- Calculated Value Display -->
+                     <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200 shadow-sm">
+                        <span class="text-sm font-medium text-slate-500">Valor da Parcela:</span>
+                        <span class="text-lg font-bold text-indigo-600">
+                            {{ calculatedInstallmentValue() | currency:'BRL':'symbol':'1.2-2' }}
+                        </span>
+                     </div>
+                </div>
+             }
 
             <!-- Name -->
             <app-input
@@ -50,35 +87,20 @@
                 [error]="form.get('category')?.touched && form.get('category')?.invalid ? 'Categoria obrigatória' : null">
             </app-select>
 
-            <!-- Date (Visual Only) -->
+            <!-- Date Selection -->
             <div class="grid grid-cols-2 gap-4">
                 <app-select
-                    label="Mês"
+                    label="Mês de Início/Vencimento"
                     [options]="months"
-                    placeholder="Outubro"
+                    formControlName="month"
                     icon="calendar_month">
                 </app-select>
                 <app-select
                     label="Ano"
                     [options]="years"
-                    placeholder="2024"
+                    formControlName="year"
                     icon="calendar_today">
                 </app-select>
-            </div>
-
-            <!-- Toggle -->
-            <div class="flex items-start gap-4 p-4 rounded-xl bg-primary-50 border border-primary-100">
-                <div class="flex-1">
-                    <label class="font-bold text-slate-900">Dividir entre o casal?</label>
-                    <p class="text-xs text-slate-500 mt-1">O valor será dividido proporcionalmente à renda cadastrada.
-                    </p>
-                </div>
-                <div class="relative inline-flex items-center cursor-pointer mt-1">
-                    <input type="checkbox" checked class="sr-only peer">
-                    <div
-                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
-                    </div>
-                </div>
             </div>
 
         </form>
@@ -87,8 +109,8 @@
         <div class="p-4 sm:p-6 border-t border-slate-100 bg-white">
             <button (click)="submit()" [disabled]="form.invalid"
                 class="w-full flex items-center justify-center gap-2 bg-primary-600 disabled:opacity-50 hover:bg-primary-700 text-white font-bold text-lg py-3.5 rounded-xl shadow-lg shadow-primary-600/30 transition-all active:scale-[0.98]">
-                <span>Adicionar conta</span>
-                <span class="material-symbols-outlined">arrow_forward</span>
+                <span>Salvar Conta</span>
+                <span class="material-symbols-outlined">check</span>
             </button>
         </div>
 

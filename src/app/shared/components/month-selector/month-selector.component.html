@@ -1,0 +1,38 @@
+<div class="flex flex-col gap-4 w-full max-w-5xl mx-auto">
+    
+    <!-- Year Selector (Mobile: Full width, Desktop: auto) -->
+    <div class="px-4 sm:px-8">
+        <app-select 
+            [formControl]="yearControl" 
+            [options]="yearOptions"
+            icon="calendar_today"
+            placeholder="Ano">
+        </app-select>
+    </div>
+
+    <!-- Month Scroll -->
+    <div #scrollContainer
+        class="w-full overflow-x-auto whitespace-nowrap no-scrollbar scroll-smooth px-4 sm:px-8 pb-2 cursor-grab active:cursor-grabbing select-none"
+        (mousedown)="onMouseDown($event)"
+        (mouseleave)="onMouseLeave()"
+        (mouseup)="onMouseUp()"
+        (mousemove)="onMouseMove($event)">
+        
+        <div class="flex flex-row gap-2 whitespace-nowrap pointer-events-none">
+            @for (m of months; track m.value) {
+                <button 
+                    (click)="selectMonth(m.value)"
+                    class="pointer-events-auto shrink-0 inline-flex px-5 py-2 sm:px-6 sm:py-2.5 rounded-full text-sm sm:text-base font-bold whitespace-nowrap transition-all hover:bg-primary-500 hover:text-white active:scale-95"
+                    [class.bg-primary-600]="selectedMonth === m.value"
+                    [class.text-white]="selectedMonth === m.value"
+                    [class.shadow-md]="selectedMonth === m.value"
+                    [class.shadow-primary-600/30]="selectedMonth === m.value"
+                    [class.bg-slate-100]="selectedMonth !== m.value"
+                    [class.text-slate-600]="selectedMonth !== m.value">
+                    {{ m.label }}
+                </button>
+            }
+            <div class="w-4 shrink-0"></div>
+        </div>
+    </div>
+</div>

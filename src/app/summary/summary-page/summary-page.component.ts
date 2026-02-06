@@ -21,7 +21,11 @@ export class SummaryPageComponent implements OnInit {
     ngOnInit() {
         // Load fresh data from Supabase when summary page is accessed
         this.incomeService.loadIncomes();
-        this.expensesService.loadExpenses();
+
+        this.expensesService.loadExpenses(
+            this.expensesService.selectedMonth(),
+            this.expensesService.selectedYear()
+        );
     }
 
     markAsPaid() {
