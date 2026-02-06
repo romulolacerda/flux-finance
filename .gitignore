@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Environments (Generated)
+src/environments/environment.ts
+src/environments/environment.prod.ts
+.env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -26,4 +31,3 @@ dist-ssr
 # Angular build cache
 .angular/cache
 .angular/
-

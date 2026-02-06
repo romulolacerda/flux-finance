@@ -15,17 +15,8 @@ export class SupabaseService {
         const url = environment.supabaseUrl;
         const key = environment.supabaseKey;
 
-        if (!url || url.includes('YOUR_SUPABASE_URL') || !key || key.includes('YOUR_SUPABASE_KEY')) {
-            console.warn('Supabase not configured. Please update environment.ts');
-            // Mock client or null to prevent crash, effectively preventing auth but allowing app to load
-            this.supabase = {
-                auth: {
-                    getUser: async () => ({ data: { user: null } }),
-                    getSession: async () => ({ data: { session: null } }),
-                    onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => { } } } }),
-                    signOut: async () => ({ error: null }),
-                }
-            } as any;
+        if (!url || !key) {
+            console.error('Supabase not configured. Check environment variables.');
             return;
         }
 
