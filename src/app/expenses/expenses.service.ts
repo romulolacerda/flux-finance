@@ -232,6 +232,44 @@ export class ExpensesService {
         await this.loadExpenses(this.selectedMonth(), this.selectedYear());
     }
 
+    async markMonthAsPaid(month: number, year: number): Promise<{ success: boolean, error?: any }> {
+        const user = await this.supabase.user;
+        if (!user.data.user) return { success: false, error: 'User not logged in' };
+        const userId = user.data.user.id;
+
+        // 1. Update Regular Expenses
+        const { error: regexError } = await this.supabase.client
+            .from('expenses')
+            .update({ paid: true })
+            .eq('user_id', userId)
+            .eq('is_installment', false)
+            .eq('due_month', month)
+            .eq('due_year', year);
+
+        if (regexError) {
+            console.error('Error marking regular expenses as paid', regexError);
+            return { success: false, error: regexError };
+        }
+
+        // 2. Update Installments in expense_installments
+        // note: expenses table for parents doesn't need 'paid', only children in expense_installments
+        const { error: instError } = await this.supabase.client
+            .from('expense_installments')
+            .update({ paid: true })
+            .eq('user_id', userId)
+            .eq('due_month', month)
+            .eq('due_year', year);
+
+        if (instError) {
+            console.error('Error marking installments as paid', instError);
+            return { success: false, error: instError };
+        }
+
+        // Reload to update UI
+        await this.loadExpenses(month, year);
+        return { success: true };
+    }
+
     async getAvailableYears() {
         const { data } = await this.supabase.client
             .from('expenses')

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CalculatorService } from '../calculator.service';
 import { IncomeService } from '../../income/income.service';
 import { ExpensesService } from '../../expenses/expenses.service';
-import { AlertService } from '../../shared/services/alert.service';
+
 import { BrlCurrencyPipe } from '../../shared/pipes/brl-currency.pipe';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 
@@ -18,7 +18,6 @@ export class SummaryPageComponent implements OnInit {
     calcService = inject(CalculatorService);
     private incomeService = inject(IncomeService);
     private expensesService = inject(ExpensesService);
-    private alertService = inject(AlertService);
 
     ngOnInit() {
         // Load fresh data from Supabase when summary page is accessed
@@ -28,9 +27,5 @@ export class SummaryPageComponent implements OnInit {
             this.expensesService.selectedMonth(),
             this.expensesService.selectedYear()
         );
-    }
-
-    markAsPaid() {
-        this.alertService.success('Contas marcadas como pagas!');
     }
 }
