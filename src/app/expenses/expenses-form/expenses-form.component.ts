@@ -105,8 +105,8 @@ export class ExpensesFormComponent {
     async submit() {
         if (this.form.valid) {
             const vals = this.form.value;
-            const dueMonth = parseInt(vals.month || this.currentMonth.toString());
-            const dueYear = parseInt(vals.year || this.currentYear.toString());
+            const dueMonth = parseInt((vals.month || this.currentMonth.toString()), 10);
+            const dueYear = parseInt((vals.year || this.currentYear.toString()), 10);
 
             const payload: any = {
                 name: vals.name!,

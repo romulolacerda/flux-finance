@@ -1,5 +1,4 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
-import Decimal from 'decimal.js';
 import { SupabaseService } from '../core/supabase.service';
 import { 
     Expense, 
@@ -15,20 +14,17 @@ import { toDecimal, sumDecimals, fromDecimal } from '../shared/utils/decimal-uti
 export class ExpensesService {
     private supabase = inject(SupabaseService);
 
-    // Navigation State
-    selectedMonth = signal<number>(new Date().getMonth() + 1); // 1-12
+    selectedMonth = signal<number>(new Date().getMonth() + 1);
     selectedYear = signal<number>(new Date().getFullYear());
 
     expenses = signal<Expense[]>([]);
 
-    // Use Decimal for precise summation of expenses
     totalExpenses = computed(() => {
         const decimals = this.expenses().map(e => toDecimal(e.amount || 0));
         return fromDecimal(sumDecimals(...decimals));
     });
 
     async loadExpenses(month: number, year: number) {
-        // 1. Fetch regular single-time expenses for this month
         const regularPromise = this.supabase.client
             .from('expenses')
             .select('*')
@@ -37,13 +33,11 @@ export class ExpensesService {
             .eq('due_year', year)
             .order('created_at', { ascending: false });
 
-        // 2. Fetch installments due this month
-        // We join with the parent 'expenses' table to get name, category, etc.
         const installmentsPromise = this.supabase.client
             .from('expense_installments')
             .select('*, expenses!inner(name, category)')
-            .eq('due_month', month)
-            .eq('due_year', year);
+            .eq('due_month', Number(month))
+            .eq('due_year', Number(year));
 
         const [regularResult, installmentsResult] = await Promise.all([
             regularPromise,
@@ -56,7 +50,6 @@ export class ExpensesService {
         const regular = regularResult.data || [];
         const installments = installmentsResult.data || [];
 
-        // Map regular expenses to interface (standard)
         const mappedRegular: Expense[] = regular.map(e => ({
             id: e.id,
             user_id: e.user_id,
@@ -71,26 +64,20 @@ export class ExpensesService {
             due_month: e.due_month,
             due_year: e.due_year,
             
-            // Map UI fields
             icon: this.getIconForCategory(e.category),
             iconColor: this.getColorForCategory(e.category)
         }));
-
-        // Map installments to Expense interface for display
         const mappedInstallments: Expense[] = installments.map((i: any) => {
-            const parent = i.expenses; // joined data
-            // Construct a date for display based on due_month/year if needed, 
-            // but we'll stick to created_at or construct a "due date"
+            const parent = i.expenses;
             const dueDate = new Date(i.due_year, i.due_month - 1, 1); 
 
             return {
-                id: i.id, // ID of the installment row (child)
+                id: i.id,
                 user_id: i.user_id,
                 name: parent?.name || 'Parcela Desconhecida',
-                amount: Number(i.amount), // The installment value 
+                amount: Number(i.amount),
                 category: parent?.category || 'Outros',
                 
-                // For sorting/display, we might want the date it falls on
                 date: dueDate,
                 created_at: new Date(i.created_at),
                 created_date: null,
@@ -98,18 +85,14 @@ export class ExpensesService {
                 is_installment: true,
                 current_installment: i.installment_number,
                 installment_total: i.installment_total,
-                total_amount: 0, // Not needed for monthly view per strict rule
+                total_amount: 0,
                 paid: i.paid,
 
-                // We store the parent ID implicitly if needed, but 'id' is child ID here.
-                // To delete, we need to know it's a child.
-                
                 icon: this.getIconForCategory(parent?.category),
                 iconColor: this.getColorForCategory(parent?.category),
             };
         });
 
-        // Combine and sort
         const combined = [...mappedRegular, ...mappedInstallments].sort((a, b) => {
             return (b.date?.getTime() || 0) - (a.date?.getTime() || 0);
         });
@@ -124,17 +107,13 @@ export class ExpensesService {
         const nowIso = new Date().toISOString();
 
         if (expenseData.is_installment) {
-            // === INSTALLMENT FLOW ===
             const total = expenseData.total_amount || 0;
-            const count = expenseData.installment_total || 2; // default to 2 if missing, but UI should enforce
+            const count = expenseData.installment_total || 2;
             
-            // 1. Calculate precise installment amount
             const totalDec = toDecimal(total);
             const valDec = totalDec.div(count);
-            // 2 decimal places
             const installmentValue = Number(valDec.toFixed(2));
 
-            // 2. Prepare Parent Payload (Strict Type: InstallmentParentPayload)
             const parentPayload: InstallmentParentPayload = {
                 user_id: userId,
                 name: expenseData.name || 'Nova Despesa',
@@ -142,16 +121,13 @@ export class ExpensesService {
                 date: expenseData.date?.toISOString() || nowIso,
                 created_at: nowIso,
                 created_date: expenseData.date?.toISOString() || nowIso,
-                
                 is_installment: true,
                 total_amount: total,
                 installment_total: count,
-                due_month: expenseData.due_month,
-                due_year: expenseData.due_year
-                // amount is implicitly undefined/never
+                due_month: Number(expenseData.due_month),
+                due_year: Number(expenseData.due_year)
             };
 
-            // 3. Insert Parent
             const { data: parent, error: parentError } = await this.supabase.client
                 .from('expenses')
                 .insert(parentPayload)
@@ -163,10 +139,9 @@ export class ExpensesService {
                 return;
             }
 
-            // 4. Generate Children (Strict Type: InstallmentChildPayload[])
             const installmentsToInsert: InstallmentChildPayload[] = [];
-            let currentMonth = expenseData.due_month;
-            let currentYear = expenseData.due_year;
+            let currentMonth = Number(expenseData.due_month);
+            let currentYear = Number(expenseData.due_year);
 
             for (let i = 1; i <= count; i++) {
                 installmentsToInsert.push({
@@ -180,8 +155,7 @@ export class ExpensesService {
                     paid: false,
                     created_at: nowIso
                 });
-
-                // Increment Month logic
+                
                 currentMonth++;
                 if (currentMonth > 12) {
                     currentMonth = 1;
@@ -189,34 +163,27 @@ export class ExpensesService {
                 }
             }
 
-            // 5. Batch Insert Children
             const { error: batchError } = await this.supabase.client
                 .from('expense_installments')
                 .insert(installmentsToInsert);
 
             if (batchError) {
                 console.error('Error creating installments', batchError);
-                // In a perfect world, we would rollback db transaction here.
-                // Supabase doesn't support easy frontend transactions yet without RPC.
-                // For now, we assume integrity or add cleanup logic if needed.
             }
 
         } else {
-            // === REGULAR FLOW ===
-            // Strict Type: RegularExpensePayload
             const payload: RegularExpensePayload = {
                 user_id: userId,
                 name: expenseData.name || 'Nova Despesa',
                 category: expenseData.category || 'Outros',
                 date: expenseData.date?.toISOString() || nowIso,
                 created_at: nowIso,
-                created_date: expenseData.date?.toISOString() || nowIso, // DB expects timestamp
+                created_date: expenseData.date?.toISOString() || nowIso,
 
                 is_installment: false,
                 amount: expenseData.amount || 0,
                 due_month: expenseData.due_month,
                 due_year: expenseData.due_year
-                // total_amount, installment_total are never
             };
 
             const { error } = await this.supabase.client
@@ -226,7 +193,6 @@ export class ExpensesService {
             if (error) console.error('Error adding expense', error);
         }
 
-        // Reload
         await this.loadExpenses(this.selectedMonth(), this.selectedYear());
     }
 
@@ -236,11 +202,6 @@ export class ExpensesService {
         let deletionConfirmed = true;
 
         if (isInstallment) {
-            // We are deleting a child line item.
-            // Requirement: "Supabase must cascade delete children"
-            // So we must delete the PARENT expense.
-            
-            // 1. Find the parent ID
             const { data } = await this.supabase.client
                 .from('expense_installments')
                 .select('expense_id')
@@ -248,8 +209,8 @@ export class ExpensesService {
                 .single();
             
             if (data && data.expense_id) {
-                idToDelete = data.expense_id; // Switch to parent ID
-                table = 'expenses';           // Switch to parent table
+                idToDelete = data.expense_id;
+                table = 'expenses';
             } else {
                 console.error('Could not find parent for installment deletion. Child ID:', id);
                 deletionConfirmed = false;
@@ -272,7 +233,6 @@ export class ExpensesService {
     }
 
     async getAvailableYears() {
-        // Simple query to get years from expenses table
         const { data } = await this.supabase.client
             .from('expenses')
             .select('due_year')
