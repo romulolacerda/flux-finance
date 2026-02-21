@@ -27,6 +27,7 @@
                 [label]="calcService.personB().name" 
                 icon="person"
                 type="currency"
+                theme="orange"
                 placeholder="R$ 0,00"
                 [(ngModel)]="incomeB">
             </app-input>
@@ -52,13 +53,19 @@
 
             <div class="flex justify-between items-center mb-2 sm:mb-3">
                 <span class="text-sm sm:text-base font-bold text-slate-700">Divisão Proporcional</span>
-                <span class="text-sm sm:text-base font-bold text-primary-600">
-                    {{ (ratioA * 100).toFixed(1) }}% / {{ (ratioB * 100).toFixed(1) }}%
-                </span>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs sm:text-sm bg-indigo-50 text-primary-600 px-2 py-0.5 rounded-full font-bold border border-indigo-100">
+                        {{ (ratioA * 100).toFixed(1) }}%
+                    </span>
+                    <span class="text-slate-300 font-bold">/</span>
+                    <span class="text-xs sm:text-sm bg-orange-50 text-orange-600 px-2 py-0.5 rounded-full font-bold border border-orange-100">
+                        {{ (ratioB * 100).toFixed(1) }}%
+                    </span>
+                </div>
             </div>
 
             <!-- Progress Bar -->
-            <div class="relative h-4 sm:h-5 w-full bg-white rounded-full overflow-hidden shadow-inner border border-slate-100">
+            <div class="relative h-4 sm:h-5 w-full bg-orange-400 rounded-full overflow-hidden shadow-inner border border-slate-100">
                 <div class="absolute top-0 left-0 h-full bg-primary-600 transition-all duration-500 ease-out"
                     [style.width.%]="ratioA * 100">
                 </div>
@@ -66,9 +73,9 @@
                 <div class="absolute top-0 h-full w-1 bg-white z-10 shadow-[0_0_10px_rgba(0,0,0,0.1)]" [style.left.%]="ratioA * 100"></div>
             </div>
 
-            <div class="flex justify-between mt-3 text-xs sm:text-sm font-medium text-slate-500">
-                <span>{{ calcService.personA().name }}</span>
-                <span>{{ calcService.personB().name }}</span>
+            <div class="flex justify-between mt-3 text-xs sm:text-sm font-bold">
+                <span class="text-primary-700 bg-primary-50 px-2 py-0.5 rounded-md">{{ calcService.personA().name }}</span>
+                <span class="text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md">{{ calcService.personB().name }}</span>
             </div>
         </div>
 

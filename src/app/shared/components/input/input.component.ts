@@ -25,6 +25,7 @@ export class InputComponent implements ControlValueAccessor {
     @Input() prefix = '';
     @Input() error: string | null = null;
     @Input() showPasswordToggle = false;
+    @Input() theme: 'primary' | 'orange' = 'primary';
 
     @Output() focusEvent = new EventEmitter<void>();
     @Output() blurEvent = new EventEmitter<void>();
