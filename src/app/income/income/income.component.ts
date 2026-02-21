@@ -59,17 +59,17 @@ export class IncomeComponent implements OnInit {
     }
 
     async save() {
-        // Save Person A
+        // Person A name now comes from CalculatorService which delegates to ProfileService
         await this.incomeService.saveIncome({
             id: this.calcService.personA().id,
-            name: this.calcService.personA().name || 'Pessoa A',
+            name: this.calcService.personA().name,
             amount: this.incomeA
         });
 
-        // Save Person B
+        // Person B name
         await this.incomeService.saveIncome({
             id: this.calcService.personB().id,
-            name: this.calcService.personB().name || 'Pessoa B',
+            name: this.calcService.personB().name,
             amount: this.incomeB
         });
 

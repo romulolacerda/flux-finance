@@ -1,5 +1,6 @@
 import { Injectable, inject, computed } from '@angular/core';
 import Decimal from 'decimal.js';
+import { ProfileService } from '../profile/profile.service';
 import { IncomeService } from '../income/income.service';
 import { ExpensesService } from '../expenses/expenses.service';
 import { toDecimal, calculateRatio, fromDecimal } from '../shared/utils/decimal-utils';
@@ -10,25 +11,28 @@ import { toDecimal, calculateRatio, fromDecimal } from '../shared/utils/decimal-
 export class CalculatorService {
     private incomeService = inject(IncomeService);
     private expensesService = inject(ExpensesService);
+    private profileService = inject(ProfileService);
 
     // Computeds
     personA = computed(() => {
         const inc = this.incomeService.incomes()[0];
+        const profile = this.profileService.profile();
         // Convert to Decimal for precise calculations
         const amount = toDecimal(inc?.amount);
         return { 
             id: inc?.id,
-            name: inc?.name ?? 'Pessoa A', 
+            name: profile?.person_a_name ?? 'Pessoa A', 
             amount: fromDecimal(amount) // Return as number for compatibility
         };
     });
 
     personB = computed(() => {
         const inc = this.incomeService.incomes()[1];
+        const profile = this.profileService.profile();
         const amount = toDecimal(inc?.amount);
         return { 
             id: inc?.id, 
-            name: inc?.name ?? 'Pessoa B', 
+            name: profile?.person_b_name ?? 'Pessoa B', 
             amount: fromDecimal(amount)
         };
     });

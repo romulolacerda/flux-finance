@@ -27,6 +27,14 @@
                 formControlName="confirmPassword" [showPasswordToggle]="true"
                 [error]="form.get('confirmPassword')?.touched && form.get('confirmPassword')?.invalid ? 'Confirmação obrigatória' : null"></app-input>
 
+            <div class="h-px bg-slate-100 my-2"></div>
+            
+            <app-input label="Nome da Pessoa 1 (Opcional)" type="text" placeholder="Ex: João" 
+                formControlName="personA" icon="person"></app-input>
+                
+            <app-input label="Nome da Pessoa 2 (Opcional)" type="text" placeholder="Ex: Maria" 
+                formControlName="personB" icon="person"></app-input>
+
             @if (errorMessage) {
             <p class="text-red-500 text-sm bg-red-50 p-2 rounded">{{ errorMessage }}</p>
             }

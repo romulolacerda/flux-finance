@@ -34,6 +34,28 @@
                         >
                     </app-input>
                 </div>
+                
+                <h3 class="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider mt-6 mb-2 px-1">Nomes de Exibição</h3>
+                
+                <app-input
+                    label="Nome da Pessoa 1"
+                    icon="person"
+                    [(ngModel)]="personA"
+                    placeholder="Ex: João">
+                </app-input>
+                
+                <app-input
+                    label="Nome da Pessoa 2"
+                    icon="person"
+                    [(ngModel)]="personB"
+                    placeholder="Ex: Maria">
+                </app-input>
+                
+                <div class="pt-4">
+                    <app-button (click)="saveProfile()" [loading]="saving" class="w-full">
+                        Salvar Nomes
+                    </app-button>
+                </div>
             </div>
         </div>
 
