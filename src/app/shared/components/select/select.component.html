@@ -1,55 +1,88 @@
 <label class="flex flex-col gap-2 group w-full relative">
-    @if (label) {
+  @if (label) {
     <span class="text-slate-700 text-sm font-bold flex items-center gap-2 mb-1">
-        @if (icon) { <span class="material-symbols-outlined text-primary-600">{{icon}}</span> }
-        {{ label }}
+      @if (icon) {
+        <span class="material-symbols-outlined text-primary-600">{{
+          icon
+        }}</span>
+      }
+      {{ label }}
     </span>
-    }
+  }
 
-    <div class="relative w-full">
-        <!-- Trigger Button -->
-        <button type="button" (click)="toggleDropdown()" [disabled]="isDisabled"
-            [class.border-primary]="isOpen" [class.ring-4]="isOpen" [class.ring-primary-200]="isOpen"
-            [class.border-red-500]="error"
-            class="w-full h-12 sm:h-14 bg-white border border-gray-300 rounded-xl px-4 flex items-center justify-between text-left transition-all duration-200 shadow-sm focus:outline-none disabled:bg-slate-50 disabled:opacity-50 hover:border-gray-400">
-            
-            <div class="flex items-center gap-2 overflow-hidden">
-                @if (selectedOption?.icon) {
-                    <span class="material-symbols-outlined text-slate-500">{{ selectedOption!.icon }}</span>
-                }
-                <span [class.text-slate-900]="selectedOption" [class.text-slate-400]="!selectedOption" class="font-medium truncate">
-                    {{ selectedOption ? selectedOption!.label : placeholder }}
-                </span>
-            </div>
+  <div class="relative w-full">
+    <!-- Trigger Button -->
+    <button
+      type="button"
+      (click)="toggleDropdown()"
+      [disabled]="isDisabled"
+      [class.border-primary]="isOpen"
+      [class.ring-4]="isOpen"
+      [class.ring-primary-200]="isOpen"
+      [class.border-red-500]="error"
+      class="w-full h-12 sm:h-14 bg-white border border-gray-300 rounded-xl px-4 flex items-center justify-between text-left transition-all duration-200 shadow-sm focus:outline-none disabled:bg-slate-50 disabled:opacity-50 hover:border-gray-400"
+    >
+      <div class="flex items-center gap-2 overflow-hidden">
+        @if (selectedOption?.icon) {
+          <span class="material-symbols-outlined text-slate-500">{{
+            selectedOption!.icon
+          }}</span>
+        }
+        <span
+          [class.text-slate-900]="selectedOption"
+          [class.text-slate-400]="!selectedOption"
+          class="font-medium truncate"
+        >
+          {{ selectedOption ? selectedOption!.label : placeholder }}
+        </span>
+      </div>
 
-            <span class="material-symbols-outlined text-slate-400 transition-transform duration-200"
-                [class.rotate-180]="isOpen">expand_more</span>
-        </button>
+      <span
+        class="material-symbols-outlined text-slate-400 transition-transform duration-200"
+        [class.rotate-180]="isOpen"
+        >expand_more</span
+      >
+    </button>
 
-        <!-- Dropdown Menu Template -->
-        <ng-template #dropdownTemplate>
-            <div class="bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-scale-in origin-top overflow-y-auto max-h-[40vh] sm:max-h-[50vh]">
-                @for (option of options; track option.value) {
-                <button type="button" (click)="selectOption(option)"
-                    class="w-full px-4 py-3 text-left hover:bg-slate-50 flex items-center gap-3 transition-colors group/item">
-                    @if (option.icon) {
-                        <span class="material-symbols-outlined text-slate-400 group-hover/item:text-primary transition-colors">{{ option.icon }}</span>
-                    }
-                    <span class="text-slate-700 font-medium group-hover/item:text-primary-900">{{ option.label }}</span>
-                    
-                    @if (value === option.value) {
-                        <span class="material-symbols-outlined text-primary ml-auto">check</span>
-                    }
-                </button>
-                }
-            </div>
-        </ng-template>
-    </div>
+    <!-- Dropdown Menu Template -->
+    <ng-template #dropdownTemplate>
+      <div
+        class="bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-scale-in origin-top overflow-y-auto"
+      >
+        @for (option of options; track option.value) {
+          <button
+            type="button"
+            (click)="selectOption(option)"
+            class="w-full px-4 py-3 text-left hover:bg-slate-50 flex items-center gap-3 transition-colors group/item"
+          >
+            @if (option.icon) {
+              <span
+                class="material-symbols-outlined text-slate-400 group-hover/item:text-primary transition-colors"
+                >{{ option.icon }}</span
+              >
+            }
+            <span
+              class="text-slate-700 font-medium group-hover/item:text-primary-900"
+              >{{ option.label }}</span
+            >
 
-    @if (error) {
-    <span class="text-red-500 text-xs font-semibold animate-slide-down flex items-center gap-1 mt-1">
-        <span class="material-symbols-outlined text-sm">error</span>
-        {{ error }}
+            @if (value === option.value) {
+              <span class="material-symbols-outlined text-primary ml-auto"
+                >check</span
+              >
+            }
+          </button>
+        }
+      </div>
+    </ng-template>
+  </div>
+
+  @if (error) {
+    <span
+      class="text-red-500 text-xs font-semibold animate-slide-down flex items-center gap-1 mt-1"
+    >
+      <span class="material-symbols-outlined text-sm">error</span>
+      {{ error }}
     </span>
-    }
+  }
 </label>

@@ -115,13 +115,33 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
         const rect = this.elementRef.nativeElement.querySelector('button')?.getBoundingClientRect();
         if (!rect) return;
 
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const spaceAbove = rect.top;
+        const dropdownHeight = 320; // Expected average max height
+        
+        const renderAbove = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+
         this.viewRef.rootNodes.forEach(node => {
             if (node instanceof HTMLElement) {
                 node.style.position = 'fixed';
-                node.style.top = `${rect.bottom + 8}px`;
                 node.style.left = `${rect.left}px`;
                 node.style.width = `${rect.width}px`;
-                node.style.zIndex = '9999';
+                node.style.zIndex = '100000';
+                
+                const availableHeight = Math.max(150, renderAbove ? spaceAbove - 16 : spaceBelow - 16);
+                node.style.maxHeight = `min(50vh, ${availableHeight}px)`;
+
+                if (renderAbove) {
+                    node.style.bottom = `${window.innerHeight - rect.top + 8}px`;
+                    node.style.top = 'auto';
+                    node.classList.remove('origin-top');
+                    node.classList.add('origin-bottom');
+                } else {
+                    node.style.top = `${rect.bottom + 8}px`;
+                    node.style.bottom = 'auto';
+                    node.classList.remove('origin-bottom');
+                    node.classList.add('origin-top');
+                }
             }
         });
     }
