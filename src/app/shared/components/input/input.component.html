@@ -11,7 +11,7 @@
         <span class="absolute left-4 text-slate-400 font-bold z-10 select-none">{{ prefix }}</span>
         }
 
-        <input [type]="inputType" [placeholder]="placeholder" [value]="value" [disabled]="isDisabled"
+        <input [type]="inputType" [attr.inputmode]="inputMode" [placeholder]="placeholder" [value]="value" [disabled]="isDisabled"
             (input)="onInput($event)" (focus)="onFocus()" (blur)="onBlur()" [class.pl-12]="prefix" [class.pl-4]="!prefix"
             [class.pr-12]="showPasswordToggle" [class.border-red-500]="error"
             [class.focus:border-red-500]="error" [class.focus:ring-red-200]="error"

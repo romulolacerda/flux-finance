@@ -48,10 +48,18 @@ export class InputComponent implements ControlValueAccessor {
         if (this.showPasswordToggle) {
             return this.isPasswordVisible ? 'text' : 'password';
         }
-        if (this.type === 'currency') {
-            return 'tel'; // Better keyboard on mobile for numbers
+        if (this.type === 'currency' || this.type === 'number') {
+            return 'text'; // Use text strictly for proper decimal mobile keyboard handling
         }
         return this.type;
+    }
+
+    get inputMode() {
+        if (this.type === 'currency' || this.type === 'number') {
+            return 'decimal'; // Triggers keyboard with , and . on iOS and Android
+        }
+        if (this.type === 'email') return 'email';
+        return 'text';
     }
 
     writeValue(value: any): void {
@@ -95,7 +103,8 @@ export class InputComponent implements ControlValueAccessor {
         let val: any = input.value;
 
         if (this.type === 'number') {
-            val = val === '' ? 0 : Number(val);
+            const normalized = typeof val === 'string' ? val.replace(',', '.') : val;
+            val = normalized === '' ? 0 : Number(normalized);
              this.value = val;
              this.onChange(val);
         } else if (this.type === 'currency') {
