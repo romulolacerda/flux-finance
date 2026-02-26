@@ -66,14 +66,46 @@ export class CalculatorService {
 
     // Specific shares - using Decimal multiplication for precision
     shareA = computed(() => {
-        const total = toDecimal(this.totalExpenses());
+        const expenses = this.expensesService.expenses();
+        
+        let sharedTotal = toDecimal(0);
+        let individualTotalA = toDecimal(0);
+
+        for (const exp of expenses) {
+            const amount = toDecimal(exp.amount || 0);
+            if (exp.individual) {
+                if (exp.responsible === 'A') {
+                    individualTotalA = individualTotalA.plus(amount);
+                }
+            } else {
+                sharedTotal = sharedTotal.plus(amount);
+            }
+        }
+
         const ratio = toDecimal(this.ratioA());
-        return fromDecimal(total.times(ratio));
+        const sharedShare = sharedTotal.times(ratio);
+        return fromDecimal(sharedShare.plus(individualTotalA));
     });
 
     shareB = computed(() => {
-        const total = toDecimal(this.totalExpenses());
+        const expenses = this.expensesService.expenses();
+        
+        let sharedTotal = toDecimal(0);
+        let individualTotalB = toDecimal(0);
+
+        for (const exp of expenses) {
+            const amount = toDecimal(exp.amount || 0);
+            if (exp.individual) {
+                if (exp.responsible === 'B') {
+                    individualTotalB = individualTotalB.plus(amount);
+                }
+            } else {
+                sharedTotal = sharedTotal.plus(amount);
+            }
+        }
+
         const ratio = toDecimal(this.ratioB());
-        return fromDecimal(total.times(ratio));
+        const sharedShare = sharedTotal.times(ratio);
+        return fromDecimal(sharedShare.plus(individualTotalB));
     });
 }

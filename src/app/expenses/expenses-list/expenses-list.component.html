@@ -43,15 +43,40 @@
                 </div>
     
                 <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2">
-                        <p class="text-base sm:text-lg font-bold text-slate-900 truncate group-hover:text-primary-700 transition-colors">{{ bill.name }}</p>
-                        @if (bill.is_installment) {
-                            <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] sm:text-xs font-bold tracking-wide border border-slate-200">
-                                {{ bill.current_installment }}/{{ bill.installment_total }}
-                            </span>
-                        }
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                            <p class="text-base sm:text-lg font-bold text-slate-900 truncate group-hover:text-primary-700 transition-colors">{{ bill.name }}</p>
+                            @if (bill.is_installment) {
+                                <span class="flex items-center justify-center h-[18px] min-w-[28px] px-1.5 py-[1px] rounded-md bg-slate-50 text-slate-500 text-[10px] font-bold tracking-wide border border-slate-100">
+                                    {{ bill.current_installment }}/{{ bill.installment_total }}
+                                </span>
+                            }
+                        </div>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <p class="text-xs sm:text-sm font-medium text-slate-500 truncate">{{ bill.category }}</p>
+                            
+                            <!-- Badges -->
+                            @if (bill.individual) {
+                                <div class="relative group">
+                                    <span class="px-2 py-[2px] rounded-md bg-purple-100 text-purple-700 text-xs font-bold tracking-wide flex items-center gap-1 cursor-default">
+                                        <span class="material-symbols-outlined text-[14px]">person</span>
+                                        Individual
+                                    </span>
+                                    <!-- Tooltip -->
+                                    <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block z-50">
+                                        <div class="bg-slate-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap shadow-lg">
+                                            Responsável: {{ bill.responsible === 'A' ? (profileService.profile()?.person_a_name || 'A') : (profileService.profile()?.person_b_name || 'B') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            } @else {
+                                <span class="px-2 py-[2px] rounded-md bg-slate-100 text-slate-600 text-xs font-bold tracking-wide flex items-center gap-1 cursor-default">
+                                    <span class="material-symbols-outlined text-[14px]">group</span>
+                                    Casal
+                                </span>
+                            }
+                        </div>
                     </div>
-                    <p class="text-xs sm:text-sm font-medium text-slate-500 truncate">{{ bill.category }}</p>
                 </div>
     
                 <div class="flex items-center gap-3 sm:gap-4">

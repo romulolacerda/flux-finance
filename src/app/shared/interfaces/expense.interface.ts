@@ -25,6 +25,10 @@ export interface Expense {
     iconColor?: string;
     current_installment?: number;
     paid?: boolean;
+
+    // Individual Account Fields
+    individual?: boolean;
+    responsible?: 'A' | 'B' | null;
 }
 
 export interface ExpenseInstallment {
@@ -39,6 +43,7 @@ export interface ExpenseInstallment {
     due_year: number;
     paid?: boolean | null;
     created_at: Date;
+    responsible?: 'A' | 'B' | null;
 }
 
 // 2. Strict Payload Types for Inserts
@@ -61,6 +66,8 @@ export interface RegularExpensePayload {
     amount: number;
     due_month: number;
     due_year: number;
+    individual?: boolean;
+    responsible?: 'A' | 'B' | null;
 
     // Forbidden fields for regular
     total_amount?: never;
@@ -85,6 +92,8 @@ export interface InstallmentParentPayload {
     installment_total: number;
     due_month?: number; // Optional on parent depending on logic, but usually we track start
     due_year?: number;
+    individual?: boolean;
+    responsible?: 'A' | 'B' | null;
 
     // Forbidden fields for parent
     amount?: never; 
@@ -104,5 +113,6 @@ export interface InstallmentChildPayload {
     due_year: number;
     paid: boolean;
     created_at?: string; 
+    responsible?: 'A' | 'B' | null;
 }
 

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ExpensesService } from '../expenses.service';
 import { CalculatorService } from '../../summary/calculator.service';
+import { ProfileService } from '../../profile/profile.service';
 import { AlertService } from '../../shared/services/alert.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { MonthSelectorComponent } from '../../shared/components/month-selector/month-selector.component';
@@ -19,6 +20,7 @@ import { HeaderComponent } from '../../shared/components/header/header.component
 export class ExpensesListComponent implements OnInit {
     expensesService = inject(ExpensesService);
     calcService = inject(CalculatorService);
+    profileService = inject(ProfileService);
     alertService = inject(AlertService);
     modalService = inject(ModalService);
 

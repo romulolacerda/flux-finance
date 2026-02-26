@@ -58,16 +58,17 @@
                                     {{ (calcService.ratioA() * 100).toFixed(1) }}%
                                 </span>
                             </div>
-                            <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Renda Principal</p>
+                            <div class="mt-0.5 flex flex-wrap gap-1.5 items-center">
+                                <p class="text-xs sm:text-sm text-slate-500 font-medium">Proporcional</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="mb-4">
-                     <p class="font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight">
+                     <p class="font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight flex items-baseline gap-2">
                         {{ calcService.shareA() | brlCurrency }}
                     </p>
-                    <p class="text-xs text-slate-400 mt-1">Valor a contribuir</p>
                 </div>
             </div>
 
@@ -87,16 +88,17 @@
                                     {{ (calcService.ratioB() * 100).toFixed(1) }}%
                                 </span>
                             </div>
-                            <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Parceiro</p>
+                            <div class="mt-0.5 flex flex-wrap gap-1.5 items-center">
+                                <p class="text-xs sm:text-sm text-slate-500 font-medium">Proporcional</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="mb-4">
-                     <p class="font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight">
+                     <p class="font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight flex items-baseline gap-2">
                         {{ calcService.shareB() | brlCurrency }}
                     </p>
-                    <p class="text-xs text-slate-400 mt-1">Valor a contribuir</p>
                 </div>
             </div>
         </div>

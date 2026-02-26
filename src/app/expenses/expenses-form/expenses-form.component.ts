@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { ExpensesService } from '../expenses.service';
 import { InputComponent } from '../../shared/components/input/input.component';
 import { SelectComponent, SelectOption } from '../../shared/components/select/select.component';
+import { ProfileService } from '../../profile/profile.service';
 import { AlertService } from '../../shared/services/alert.service';
 import { toDecimal, fromDecimal } from '../../shared/utils/decimal-utils';
 import { CommonModule } from '@angular/common';
@@ -18,6 +19,7 @@ import { BrlCurrencyPipe } from '../../shared/pipes/brl-currency.pipe';
 })
 export class ExpensesFormComponent {
     expensesService = inject(ExpensesService);
+    profileService = inject(ProfileService);
     router = inject(Router);
     alertService = inject(AlertService);
 
@@ -35,7 +37,9 @@ export class ExpensesFormComponent {
         installment_total: new FormControl<number | null>(null),
         // Date Fields
         month: new FormControl(this.currentMonth.toString(), Validators.required),
-        year: new FormControl(this.currentYear.toString(), Validators.required)
+        year: new FormControl(this.currentYear.toString(), Validators.required),
+        individual: new FormControl(false),
+        responsible: new FormControl<'A' | 'B' | null>(null)
     });
 
     categories: SelectOption[] = [
@@ -73,6 +77,14 @@ export class ExpensesFormComponent {
     // Computed for display
     calculatedInstallmentValue = signal<number>(0);
 
+    responsibleOptions = computed<SelectOption[]>(() => {
+        const profile = this.profileService.profile();
+        return [
+            { label: profile?.person_a_name || 'Pessoa A', value: 'A' },
+            { label: profile?.person_b_name || 'Pessoa B', value: 'B' }
+        ];
+    });
+
     constructor() {
         // React to changes
         this.form.valueChanges.subscribe(val => {
@@ -100,6 +112,18 @@ export class ExpensesFormComponent {
             }
             instControl?.updateValueAndValidity();
         });
+
+        // Setup individual validation logic
+        this.form.get('individual')?.valueChanges.subscribe(isIndiv => {
+            const respControl = this.form.get('responsible');
+            if (isIndiv) {
+                respControl?.setValidators([Validators.required]);
+            } else {
+                respControl?.clearValidators();
+                respControl?.setValue(null);
+            }
+            respControl?.updateValueAndValidity();
+        });
     }
 
     async submit() {
@@ -113,7 +137,9 @@ export class ExpensesFormComponent {
                 category: vals.category!,
                 due_month: dueMonth,
                 due_year: dueYear,
-                is_installment: !!vals.is_installment
+                is_installment: !!vals.is_installment,
+                individual: !!vals.individual,
+                responsible: vals.responsible || null
             };
 
             if (vals.is_installment) {

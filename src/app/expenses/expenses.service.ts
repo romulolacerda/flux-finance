@@ -35,7 +35,7 @@ export class ExpensesService {
 
         const installmentsPromise = this.supabase.client
             .from('expense_installments')
-            .select('*, expenses!inner(name, category)')
+            .select('*, expenses!inner(name, category, individual)')
             .eq('due_month', Number(month))
             .eq('due_year', Number(year));
 
@@ -63,6 +63,8 @@ export class ExpensesService {
             is_installment: false,
             due_month: e.due_month,
             due_year: e.due_year,
+            individual: e.individual,
+            responsible: e.responsible,
             
             icon: this.getIconForCategory(e.category),
             iconColor: this.getColorForCategory(e.category)
@@ -87,6 +89,8 @@ export class ExpensesService {
                 installment_total: i.installment_total,
                 total_amount: 0,
                 paid: i.paid,
+                individual: parent?.individual,
+                responsible: i.responsible,
 
                 icon: this.getIconForCategory(parent?.category),
                 iconColor: this.getColorForCategory(parent?.category),
@@ -125,7 +129,9 @@ export class ExpensesService {
                 total_amount: total,
                 installment_total: count,
                 due_month: Number(expenseData.due_month),
-                due_year: Number(expenseData.due_year)
+                due_year: Number(expenseData.due_year),
+                individual: expenseData.individual || false,
+                responsible: expenseData.responsible || null
             };
 
             const { data: parent, error: parentError } = await this.supabase.client
@@ -153,7 +159,8 @@ export class ExpensesService {
                     due_month: currentMonth,
                     due_year: currentYear,
                     paid: false,
-                    created_at: nowIso
+                    created_at: nowIso,
+                    responsible: expenseData.responsible || null
                 });
                 
                 currentMonth++;
@@ -183,7 +190,9 @@ export class ExpensesService {
                 is_installment: false,
                 amount: expenseData.amount || 0,
                 due_month: expenseData.due_month,
-                due_year: expenseData.due_year
+                due_year: expenseData.due_year,
+                individual: expenseData.individual || false,
+                responsible: expenseData.responsible || null
             };
 
             const { error } = await this.supabase.client
