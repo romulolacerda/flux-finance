@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SupabaseService } from '../../core/supabase.service';
-import { ProfileService } from '../../profile/profile.service';
 import { InputComponent } from '../../shared/components/input/input.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 
@@ -16,7 +15,6 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 export class RegisterComponent {
     private router = inject(Router);
     private supabase = inject(SupabaseService);
-    private profileService = inject(ProfileService);
 
     loading = false;
     errorMessage: string | null = null;
@@ -41,18 +39,18 @@ export class RegisterComponent {
             try {
                 const { data, error } = await this.supabase.signUp(
                     this.form.getRawValue().email,
-                    this.form.getRawValue().password
+                    this.form.getRawValue().password,
+                    {
+                        person_a_name: this.form.getRawValue().personA || 'Pessoa A',
+                        person_b_name: this.form.getRawValue().personB || 'Pessoa B'
+                    }
                 );
                 if (error) throw error;
                 
-                // Save custom profile names if a user was created
-                if (data?.user) {
-                     await this.profileService.saveProfile(
-                         data.user.id, 
-                         this.form.getRawValue().personA || 'Pessoa A', 
-                         this.form.getRawValue().personB || 'Pessoa B'
-                     );
-                }
+                // Nota: Não salvamos o perfil diretamente aqui para evitar o erro de violação do RLS 
+                // ("new row violates row-level security policy for table profiles"), 
+                // pois o usuário ainda não confirmou o email e não possui sessão.
+                // O perfil será salvo automaticamente no primeiro login usando os metadados.
 
                 alert('Cadastro realizado! Verifique seu email para confirmar.');
                 this.router.navigate(['/auth/login']);
