@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SupabaseService } from '../../core/supabase.service';
 import { InputComponent } from '../../shared/components/input/input.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
     selector: 'app-register',
@@ -15,6 +16,7 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 export class RegisterComponent {
     private router = inject(Router);
     private supabase = inject(SupabaseService);
+    private alertService = inject(AlertService);
 
     loading = false;
     errorMessage: string | null = null;
@@ -52,7 +54,7 @@ export class RegisterComponent {
                 // pois o usuário ainda não confirmou o email e não possui sessão.
                 // O perfil será salvo automaticamente no primeiro login usando os metadados.
 
-                alert('Cadastro realizado! Verifique seu email para confirmar.');
+                this.alertService.success('Conta criada com sucesso!');
                 this.router.navigate(['/auth/login']);
             } catch (error: any) {
                 this.errorMessage = error.message || 'Erro ao criar conta.';

@@ -3,11 +3,11 @@
     <!-- Standard Header -->
     <app-header></app-header>
 
-    <div class="max-w-5xl mx-auto w-full pb-4 pt-[72px] sm:pt-[88px]">
+    <div class="max-w-5xl mx-auto w-full pb-4 pt-[88px] sm:pt-[112px] md:pt-[120px]">
         <!-- Title & Stats -->
-        <div class="px-6 pt-6 pb-2 sm:px-8 sm:pt-8">
-            <div class="flex flex-col gap-1 mt-2">
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Minhas Contas</h2>
+        <div class="px-4 sm:px-8 md:px-12 pb-2">
+            <div class="flex flex-col gap-1 mt-2 sm:mt-4 text-left">
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Minhas Contas</h1>
                 <div class="flex items-baseline gap-2">
                     <span class="text-sm sm:text-base font-medium text-slate-500">Total este mês:</span>
                     <span class="text-xl sm:text-2xl font-bold text-primary-600 transition-all">{{ calcService.totalExpenses() | brlCurrency }}</span>
@@ -96,8 +96,8 @@
         </div>
     </div>
 
-    <!-- FAB -->
-    <div class="fixed right-6 bottom-24 z-50 safe-bottom pointer-events-auto">
+    <!-- Desktop FAB -->
+    <div class="hidden md:block fixed right-6 bottom-24 z-50 safe-bottom pointer-events-auto">
         <div class="transition-transform hover:scale-110 active:scale-95 shadow-xl rounded-2xl">
             <a routerLink="/app/expenses/add"
                 class="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-success text-white hover:bg-green-600 transition-all">
