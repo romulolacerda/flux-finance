@@ -56,15 +56,15 @@ import { RouterLink, RouterLinkActive, Router } from '@angular/router';
                     </span>
                 </a>
 
-                <!-- Profile -->
-                <a routerLink="/app/profile" routerLinkActive="active"
+                <!-- More Hub -->
+                <a routerLink="/app/more" routerLinkActive="active"
                     class="group flex flex-col items-center justify-center gap-1 w-16 h-14 cursor-pointer touch-manipulation">
                     <div class="h-8 px-5 rounded-full flex items-center justify-center transition-all duration-300 group-[.active]:bg-primary-100 group-[.active]:text-primary-700 text-slate-400">
                         <span class="material-symbols-outlined text-2xl transition-all duration-300"
-                            [class.filled]="isActive('/app/profile')">person</span>
+                            [class.filled]="isActive('/app/more')">menu</span>
                     </div>
                     <span class="text-[10px] font-bold transition-colors duration-300 group-[.active]:text-primary-700 text-slate-400">
-                        Perfil
+                        Mais
                     </span>
                 </a>
             </div>

@@ -1,0 +1,74 @@
+<div class="flex flex-col h-full min-h-screen bg-background-light">
+    <app-header></app-header>
+
+    <div class="max-w-5xl mx-auto w-full pb-4 pt-[88px] sm:pt-[112px] md:pt-[120px]">
+        <div class="px-4 sm:px-8 md:px-12 pb-2">
+            <div class="flex items-center gap-2 mb-2">
+                <a routerLink="/app/more" class="p-2 -ml-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </a>
+            </div>
+            <div class="flex flex-col gap-1 mt-2 sm:mt-4 text-left">
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Lembretes</h1>
+                <p class="text-sm sm:text-base text-slate-500 font-medium">Contas e pagamentos recorrentes</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- List -->
+    <div class="flex-1 p-4 pb-[120px] sm:p-8 sm:pb-[120px] flex flex-col gap-3 max-w-5xl mx-auto w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 w-full">
+            @for (rem of remindersService.reminders(); track rem.id) {
+            <div class="group relative flex items-center gap-4 bg-white p-4 sm:p-5 rounded-2xl border border-slate-100 shadow-sm transition-all overflow-hidden cursor-pointer hover:-translate-y-1 hover:shadow-md" (click)="router.navigate(['/app/reminders/edit', rem.id])">
+                
+                <div class="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105" 
+                     [ngClass]="{
+                        'bg-green-50 text-green-600': isPaid(rem),
+                        'bg-red-50 text-red-600': isOverdue(rem),
+                        'bg-orange-50 text-orange-600': !isPaid(rem) && !isOverdue(rem)
+                     }">
+                    <span class="material-symbols-outlined text-2xl sm:text-3xl">
+                        {{ isPaid(rem) ? 'check_circle' : (isOverdue(rem) ? 'warning' : 'schedule') }}
+                    </span>
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <p class="text-base sm:text-lg font-bold text-slate-900 truncate">{{ rem.name }}</p>
+                    <div class="flex items-center gap-2 mt-0.5">
+                        <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded tracking-wide"
+                              [ngClass]="{
+                                'bg-green-100 text-green-700': isPaid(rem),
+                                'bg-red-100 text-red-700': isOverdue(rem),
+                                'bg-orange-100 text-orange-700': !isPaid(rem) && !isOverdue(rem)
+                              }">
+                            {{ isPaid(rem) ? 'Pago este mês' : (isOverdue(rem) ? 'Atrasado' : 'Pendente') }}
+                        </span>
+                        <p class="text-xs sm:text-sm font-medium text-slate-500 hidden sm:block">Vence dia {{ rem.due_day }}</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <p class="text-base font-bold text-slate-900 sm:hidden mr-2">Dia {{ rem.due_day }}</p>
+                    
+                    <button (click)="togglePaid(rem, $event)" title="Marcar como Pago" class="w-10 h-10 flex items-center justify-center rounded-full transition-all border-2 active:scale-95 z-10" [ngClass]="isPaid(rem) ? 'border-green-500 bg-green-50 text-green-600' : 'border-slate-200 text-slate-300 hover:border-green-500 hover:text-green-500'">
+                        <span class="material-symbols-outlined text-[20px]">{{ isPaid(rem) ? 'check' : 'done' }}</span>
+                    </button>
+                    <button (click)="deleteReminder(rem.id!, $event)" title="Excluir" class="w-10 h-10 hidden sm:flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all z-10">
+                        <span class="material-symbols-outlined text-[20px]">delete</span>
+                    </button>
+                </div>
+            </div>
+            } @empty {
+            <div class="flex flex-col items-center justify-center py-20 text-slate-400 col-span-full">
+                <span class="material-symbols-outlined text-6xl mb-4 opacity-50">event_note</span>
+                <p class="text-lg font-medium text-slate-500">Nenhum lembrete automático.</p>
+                <p class="text-sm">Os avisos aparecerão no dia dos vencimentos.</p>
+            </div>
+            }
+        </div>
+
+        <app-button (click)="router.navigate(['/app/reminders/add'])" class="w-full sm:w-auto sm:self-end mt-4">
+            <span class="text-base sm:text-lg">Criar lembrete</span>
+        </app-button>
+    </div>
+</div>

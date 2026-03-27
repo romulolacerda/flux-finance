@@ -25,6 +25,10 @@ export const routes: Routes = [
       { path: 'expenses/add', loadComponent: () => import('./expenses/expenses-form/expenses-form.component').then(m => m.ExpensesFormComponent) },
       { path: 'summary', loadComponent: () => import('./summary/summary-page/summary-page.component').then(m => m.SummaryPageComponent) },
       { path: 'profile', loadComponent: () => import('./profile/profile/profile.component').then(m => m.ProfileComponent) },
+      { path: 'more', loadComponent: () => import('./more/more/more.component').then(m => m.MoreComponent) },
+      { path: 'reminders', loadComponent: () => import('./reminders/reminders-list/reminders-list.component').then(m => m.RemindersListComponent) },
+      { path: 'reminders/add', loadComponent: () => import('./reminders/reminders-form/reminders-form.component').then(m => m.RemindersFormComponent) },
+      { path: 'reminders/edit/:id', loadComponent: () => import('./reminders/reminders-form/reminders-form.component').then(m => m.RemindersFormComponent) },
       { path: '', redirectTo: 'income', pathMatch: 'full' }
     ]
   },

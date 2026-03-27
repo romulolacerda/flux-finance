@@ -1,0 +1,50 @@
+<div class="h-full bg-background-light pb-[120px] min-h-screen">
+    <app-header></app-header>
+    
+    <div class="max-w-2xl mx-auto w-full pt-[88px] sm:pt-[112px] md:pt-[120px] px-4 sm:px-8">
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-6 sm:mb-8 text-left">Mais</h1>
+
+        <div class="bg-white rounded-[2rem] shadow-sm overflow-hidden border border-slate-100 flex flex-col">
+            
+            <!-- Perfil -->
+            <a routerLink="/app/profile" class="flex items-center gap-4 px-6 py-5 hover:bg-slate-50 active:bg-slate-100 transition-colors cursor-pointer group border-b border-slate-50 outline-none">
+                <div class="w-12 h-12 rounded-full bg-primary-50 text-primary-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">person</span>
+                </div>
+                <div class="flex-1">
+                    <p class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">Meu Perfil</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500">Dados da conta e divisão de renda</p>
+                </div>
+                <span class="material-symbols-outlined text-slate-300 group-hover:text-primary-400 transition-colors">chevron_right</span>
+            </a>
+
+            <!-- Lembretes -->
+            <a routerLink="/app/reminders" class="flex items-center gap-4 px-6 py-5 cursor-pointer group transition-colors hover:bg-slate-50 active:bg-slate-100 border-b border-slate-50 outline-none">
+                <div class="w-12 h-12 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">alarm</span>
+                </div>
+                <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                        <p class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">Lembretes</p>
+                    </div>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500">Avisos de contas próximas</p>
+                </div>
+                <span class="material-symbols-outlined text-slate-300 group-hover:text-orange-400 transition-colors">chevron_right</span>
+            </a>
+
+            <!-- Sair -->
+            <button (click)="logout()" class="flex items-center gap-4 px-6 py-5 hover:bg-red-50/50 active:bg-red-50 transition-colors cursor-pointer group text-left w-full outline-none">
+                <div class="w-12 h-12 rounded-full bg-red-50 text-red-500 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">logout</span>
+                </div>
+                <div class="flex-1">
+                    <p class="text-base sm:text-lg font-bold text-red-600 tracking-tight">Sair do Aplicativo</p>
+                    <p class="text-xs sm:text-sm font-medium text-red-400">Desconectar sua sessão atual</p>
+                </div>
+            </button>
+
+        </div>
+        
+        <p class="text-center text-[10px] sm:text-xs text-slate-400 mt-8 tracking-wide uppercase">Pratio App v1.0.0</p>
+    </div>
+</div>
