@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { HeaderComponent } from '../../shared/components/header/header.component';
-import { ButtonComponent } from '../../shared/components/button/button.component';
 import { RemindersService, Reminder } from '../../services/reminders.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { AlertService } from '../../shared/services/alert.service';
@@ -10,7 +9,7 @@ import { AlertService } from '../../shared/services/alert.service';
 @Component({
   selector: 'app-reminders-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, HeaderComponent, ButtonComponent],
+  imports: [CommonModule, RouterLink, HeaderComponent],
   templateUrl: './reminders-list.component.html'
 })
 export class RemindersListComponent implements OnInit {

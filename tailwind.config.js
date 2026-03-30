@@ -3,6 +3,9 @@ module.exports = {
     content: [
         "./src/**/*.{html,ts}",
     ],
+    future: {
+        hoverOnlyWhenSupported: true,
+    },
     darkMode: 'class',
     theme: {
         extend: {

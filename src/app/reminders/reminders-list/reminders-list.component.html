@@ -8,9 +8,15 @@
                     <span class="material-symbols-outlined">arrow_back</span>
                 </a>
             </div>
-            <div class="flex flex-col gap-1 mt-2 sm:mt-4 text-left">
-                <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Lembretes</h1>
-                <p class="text-sm sm:text-base text-slate-500 font-medium">Contas e pagamentos recorrentes</p>
+            <div class="flex items-center justify-between gap-4 mt-2 sm:mt-4 text-left">
+                <div class="flex flex-col gap-1">
+                    <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Lembretes</h1>
+                    <p class="text-sm sm:text-base text-slate-500 font-medium">Contas e pagamentos recorrentes</p>
+                </div>
+                <button (click)="router.navigate(['/app/reminders/add'])" title="Criar lembrete" 
+                        class="bg-primary-600 hover:bg-primary-700 text-white h-12 w-12 font-bold rounded-full shadow-lg active:scale-[0.98] transition-all flex items-center justify-center flex-shrink-0 shadow-primary-600/20">
+                    <span class="material-symbols-outlined text-[28px]">add</span>
+                </button>
             </div>
         </div>
     </div>
@@ -66,9 +72,5 @@
             </div>
             }
         </div>
-
-        <app-button (click)="router.navigate(['/app/reminders/add'])" class="w-full sm:w-auto sm:self-end mt-4">
-            <span class="text-base sm:text-lg">Criar lembrete</span>
-        </app-button>
     </div>
 </div>
